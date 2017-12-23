@@ -1,45 +1,16 @@
-TODO
-===========
-change COINBASE_MATURITY back to 100.
-build windows version
-replace pictures for qt version.
-add generateToAddress API in rpc/mining.cpp back with multi-thread support.
 
-Btcnano Nano
-===========
+What is Bitcoin Nano?
+Bitcoin Nano (BTN) is a fork of Bitcoin code.
 
-https://btcnano.org
 
-What is Btcnano?
-----------------
 
-Btcnano is an experimental digital currency that enables instant payments to
-anyone, anywhere in the world. Btcnano uses peer-to-peer technology to operate
-with no central authority: managing transactions and issuing money are carried
-out collectively by the network.
+The cryptocurrency BTN starts mining at 00:00 December 25th, 2017, Beijing time. 
+A new member of BTC family was born.
 
-What is Btcnano Nano?
---------------------
 
-Btcnano Nano is the name of open source software which enables the use of Btcnano.
-It is designed to facilite a hard fork to increase Btcnano's block size limit.
-"ABC" stands for "Adjustable Blocksize Cap".
 
-Btcnano Nano is a fork of the [Btcnano Core](https://btcnanocore.org) software project.
+Bitcoin Nano (BTN)’4 FEATURES: mining algorithm, block size,smart contact and cross-chaining trading.
 
-License
--------
 
-Btcnano Nano is released under the terms of the MIT license. See [COPYING](COPYING) for more
-information or see https://opensource.org/licenses/MIT.
 
-Development Process
--------------------
-
-This Github repository contains only source code of releases.
-
-Btcnano Nano development takes place at https://reviews.btcnano.org/
-
-You can clone the active development version from here:
-
-    https://reviews.btcnano.org/source/btcnano-nano.git
+BTN developers can explore a number of open source code, create an open game portal from the BTC developer ecosystem and get more technical support. BTN Game developers are free to publish their own design games. choose games , select the role, and participate in the game design.
