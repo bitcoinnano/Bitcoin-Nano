@@ -1,0 +1,33 @@
+# /etc/conf.d/btcnanod: config file for /etc/init.d/btcnanod
+
+# Config file location
+#BTCNANOD_CONFIGFILE="/etc/btcnano/btcnano.conf"
+
+# What directory to write pidfile to?  (created and owned by $BTCNANOD_USER)
+#BTCNANOD_PIDDIR="/var/run/btcnanod"
+
+# What filename to give the pidfile
+#BTCNANOD_PIDFILE="${BTCNANOD_PIDDIR}/btcnanod.pid"
+
+# Where to write btcnanod data (be mindful that the blockchain is large)
+#BTCNANOD_DATADIR="/var/lib/btcnanod"
+
+# User and group to own btcnanod process
+#BTCNANOD_USER="btcnano"
+#BTCNANOD_GROUP="btcnano"
+
+# Path to btcnanod executable
+#BTCNANOD_BIN="/usr/bin/btcnanod"
+
+# Nice value to run btcnanod under
+#BTCNANOD_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+BTCNANOD_OPTS="-disablewallet"
+
+# The timeout in seconds OpenRC will wait for btcnanod to terminate
+# after a SIGTERM has been raised.
+# Note that this will be mapped as argument to start-stop-daemon's
+# '--retry' option, which means you can specify a retry schedule
+# here. For more information see man 8 start-stop-daemon.
+BTCNANOD_SIGTERM_TIMEOUT=60

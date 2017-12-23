@@ -1,0 +1,6 @@
+usr/local/bin/btcnano-qt usr/bin
+share/pixmaps/btcnano32.xpm usr/share/pixmaps
+share/pixmaps/btcnano16.xpm usr/share/pixmaps
+share/pixmaps/btcnano128.png usr/share/pixmaps
+debian/btcnano-qt.desktop usr/share/applications
+debian/btcnano-qt.protocol usr/share/kde4/services/

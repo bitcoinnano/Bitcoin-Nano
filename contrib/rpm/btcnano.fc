@@ -1,0 +1,8 @@
+/usr/bin/btcnano-cli		--	gen_context(system_u:object_r:btcnano_exec_t,s0)
+/usr/sbin/btcnanod		--	gen_context(system_u:object_r:btcnano_exec_t,s0)
+/usr/lib(64)?/btcnano/btcnanod		--	gen_context(system_u:object_r:btcnano_exec_t,s0)
+
+/etc/btcnano(/.*)?		gen_context(system_u:object_r:btcnano_conf_t,s0)
+/var/lib/btcnano(/.*)?		gen_context(system_u:object_r:btcnano_var_lib_t,s0)
+
+(/var)?/run/btcnanod(/.*)?   gen_context(system_u:object_r:btcnano_var_run_t,s0)

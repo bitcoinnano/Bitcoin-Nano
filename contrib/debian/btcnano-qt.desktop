@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Btcnano Nano
+Comment=Connect to the Btcnano P2P Network
+Comment[de]=Verbinde mit dem Btcnano peer-to-peer Netzwerk
+Comment[fr]=Btcnano, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Btcnano, eşten eşe kriptografik sanal para birimi
+Exec=btcnano-qt %u
+Terminal=false
+Type=Application
+Icon=btcnano128
+MimeType=x-scheme-handler/btcnanocash;
+Categories=Office;Finance;
