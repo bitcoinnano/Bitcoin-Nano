@@ -20,13 +20,13 @@ Bitcoin Nano (BTN)’4 FEATURES
 =====================================
 BTN has 4 features as following:Mining Algorithm, block size,smart contact and cross-chaining trading.
 
-  1.Mining Algorithm:By inserting the side chain, we will integrate the smart contract's feature and compatible with the current ethernet virtual machine (EVM), to allow our users develop distributed applications via side chains (Dapp), and publish smart contracts.
+  1. Mining Algorithm:By inserting the side chain, we will integrate the smart contract's feature and compatible with the current ethernet virtual machine (EVM), to allow our users develop distributed applications via side chains (Dapp), and publish smart contracts.
   
-  2.Block Size:For the sake of low fees and fast confirmations, we will raise the limitation of it into 8 MB. According to current implementation and experimentation, 8MB block size is enough to meet all the transactions now.
+  2. Block Size:For the sake of low fees and fast confirmations, we will raise the limitation of it into 8 MB. According to current implementation and experimentation, 8MB block size is enough to meet all the transactions now.
   
-  3.Smart Contact: By inserting the side chain, we will integrate the smart contract's feature and compatible with the current ethernet virtual machine (EVM), to allow our users develop distributed applications via side chains (Dapp), and publish smart contracts.
+  3. Smart Contact: By inserting the side chain, we will integrate the smart contract's feature and compatible with the current ethernet virtual machine (EVM), to allow our users develop distributed applications via side chains (Dapp), and publish smart contracts.
   
-  4.Cross-chain Trading: For the sake of low fees and fast confirmations, we will raise the limitation of it into 8 MB. According to current implementation and experimentation, 8MB block size is enough to meet all the transactions now.
+  4. Cross-chain Trading: For the sake of low fees and fast confirmations, we will raise the limitation of it into 8 MB. According to current implementation and experimentation, 8MB block size is enough to meet all the transactions now.
 
 
 
