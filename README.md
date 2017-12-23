@@ -1,7 +1,7 @@
 
 What is Bitcoin Nano?
 ============================
-Bitcoin Nano (BTN) is a fork of Bitcoin. We will take a block chain snapshot at block 500553, and a cryptocurrency will be generated, Bitcoin Nano(BTN). Bitcoin Nano applies a PoW algorithm, Equihash, which Can effectively prevent the ASIC mining. We expect more people to take participate in the Bitcoin Nano project make it better.
+Bitcoin Nano (BTN) is an airdrop of Bitcoin. We will take a block chain snapshot at block 500553, and a cryptocurrency will be generated, Bitcoin Nano(BTN). Bitcoin Nano applies a PoW algorithm, Equihash, which Can effectively prevent the ASIC mining. We expect more people to take participate in the Bitcoin Nano project make it better.
 
 
 What is the purpose of Bitcoin Nano?
@@ -12,7 +12,7 @@ First of all, we will work with some video live platforms. The audience can make
 
 How can I get Bitcoin Nano?
 ===============================
-Anyone who held Bitcoin when block 500553 was mined automatically received Bitcoin Nano at the rate of 1 BTC = 1000 BTN (If you had 99 BTC at the time of the fork, you now also have 99000 BTN). If your Bitcoins are stored by a third party such as an exchange, then you must inquire with them about your Bitcoin Nano . Of course, you can get BTN via buying or mining.
+Anyone who held Bitcoin when block 500553 was mined automatically received Bitcoin Nano at the rate of 1 BTC = 1000 BTN (If you had 99 BTC at the time of the snapshot, you now also have 99000 BTN). If your Bitcoins are stored by a third party such as an exchange, then you must inquire with them about your Bitcoin Nano. Of course, you can get BTN via buying or mining.
 
 
 
