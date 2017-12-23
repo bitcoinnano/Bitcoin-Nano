@@ -86,8 +86,6 @@ bool CheckEquihashSolution(const CBlockHeader *pblock, const CChainParams& param
     size_t n = params.n();
     size_t k = params.k();
 
-std::cout << "checkequihashsolution, n = " << n << ", " << k << std::endl;
-
     // Hash state
     crypto_generichash_blake2b_state state;
     EhInitialiseState(n, k, state);
