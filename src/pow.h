@@ -7,6 +7,7 @@
 #define BTCNANO_POW_H
 
 #include "consensus/params.h"
+#include "uint256.h"
 
 #include <stdint.h>
 

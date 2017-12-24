@@ -1159,23 +1159,22 @@ bool ReadBlockFromDisk(CBlock &block, const CBlockIndex *pindex,
 
 // modified at December 13, 2017, time 16:44:45, block height 499036(1513183485)
 // total coins calculated to December 25, 00:00:00(1514160000)
-// estimate to height 500663 at rate of 10 min per block
+// estimate to height 500849 at rate of 10 min per block
 // so at time of Christmas 00:00:00, we assume the subsidy dispatched
-// be (2.1 * 10 ^ 5 - 1) * 50 * 10 ^ 3 + 2.1 * 10 ^ 5 * 25 * 10 ^ 3 + 80663 * 12.5 * 10 ^ 3,
-// which is 16758237500.
+// be (2.1 * 10 ^ 5 - 1) * 50 * 10 ^ 3 + 2.1 * 10 ^ 5 * 25 * 10 ^ 3 + 80849 * 12.5 * 10 ^ 3,
+// which is 16760562500.
 
-const CAmount premine(16758237500 * COIN.GetSatoshis());
+const CAmount premine(16760562500 * COIN.GetSatoshis());
 
 CAmount GetBlockSubsidy(int nHeight, const Consensus::Params &consensusParams) {
-	// send 1000 times BTCs at the precalculated height of 50663 for premine,
-	// and then sent from our miner to clents.
+	// send 1000 times BTCs at the precalculated height of 500849 for premine
 	if (nHeight == 1)
 	{
 		return premine;
 	}
 
-	// going on with btc height 500663, premine 50664 excluded
-    int halvings = (nHeight + 500665) / consensusParams.nSubsidyHalvingInterval;
+	// going on with btc height 500849, premine 500850 excluded
+    int halvings = (nHeight + 500851) / consensusParams.nSubsidyHalvingInterval;
     // Force block reward to zero when right shift is undefined.
     if (halvings >= 64) return 0;
 

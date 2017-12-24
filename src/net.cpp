@@ -1641,7 +1641,8 @@ static std::string GetDNSHost(const CDNSSeedData &data,
 
     // See chainparams.cpp, most dnsseeds only support one or two possible
     // servicebits hostnames
-    return strprintf("x%x.%s", *requiredServiceBits, data.host);
+//    return strprintf("x%x.%s", *requiredServiceBits, data.host);
+    return strprintf("%s", data.host);
 }
 
 void CConnman::ThreadDNSAddressSeed() {

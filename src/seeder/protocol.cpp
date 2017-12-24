@@ -80,6 +80,7 @@ CAddress::CAddress(CService ipIn, uint64_t nServicesIn) : CService(ipIn) {
 }
 
 void CAddress::Init() {
+//    nServices = NODE_NETWORK | NODE_BTCNANO_CASH;
     nServices = NODE_NETWORK | NODE_BTCNANO_CASH;
     nTime = 100000000;
 }
