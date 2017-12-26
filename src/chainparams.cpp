@@ -224,7 +224,7 @@ public:
         vSeeds.push_back(
             CDNSSeedData("btcnano2.org", "seed.btcnano2.org", true));
         vSeeds.push_back(
-            CDNSSeedData("btcnano3.org", "seed.btcnano4.org", true));
+            CDNSSeedData("btcnano3.org", "seed.btcnano3.org", true));
 
 		// start with 'N'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<uint8_t>(1, 53);
