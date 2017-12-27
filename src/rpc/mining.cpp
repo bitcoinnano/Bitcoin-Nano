@@ -126,6 +126,10 @@ Config *g_config;
 
 void  BtcnanoMiner(int nGenerate)
 {
+        LogPrintf("FcashMiner -- started\n");
+        SetThreadPriority(THREAD_PRIORITY_LOWEST);
+        RenameThread("fcash-miner");
+
 	std::shared_ptr<CReserveScript> coinbaseScript;
 	 GetMainSignals().ScriptForMining(coinbaseScript);
 
@@ -158,7 +162,7 @@ static UniValue generateBlocks(const Config &config,
     int nHeightStart = 0;
     int nHeightEnd = 0;
     int nHeight = 0;
-
+    int nCount; 
     {
         // Don't keep cs_main locked.
         LOCK(cs_main);
@@ -170,6 +174,9 @@ static UniValue generateBlocks(const Config &config,
     unsigned int nExtraNonce = 0;
     UniValue blockHashes(UniValue::VARR);
     while (nHeight < nHeightEnd) {
+       	nHeightStart = chainActive.Height();
+        nHeight = nHeightStart;
+        nCount=0;
         std::unique_ptr<CBlockTemplate> pblocktemplate(
             BlockAssembler(config, Params())
                 .CreateNewBlock(coinbaseScript->reserveScript));
@@ -186,18 +193,18 @@ static UniValue generateBlocks(const Config &config,
 	    std::string solver = GetArg("-equihashsolver", "default");
 	    assert(solver == "tromp" || solver == "default");
 
-		do{
-            pblock->nNonce = ArithToUint256(UintToArith256(pblock->nNonce) + 1);
-            --nMaxTries;
-		}while (nMaxTries > 0 && UintToArith256(pblock->nNonce) < nInnerLoopCount &&
+	   do{
+                if(nCount>10) break;
+                pblock->nNonce = ArithToUint256(UintToArith256(pblock->nNonce) + 1);
+                nCount++;  
+	    }while (nMaxTries > 0 &&
 				!equihash_(solver, pblock, Params().n(), Params().k()));
 
         if (nMaxTries <= 0) {
             break;
         }
-        if (UintToArith256(pblock->nNonce) == nInnerLoopCount) {
-            continue;
-        }
+        if(nCount>10)
+            continue;        
 
         std::shared_ptr<const CBlock> shared_pblock =
             std::make_shared<const CBlock>(*pblock);
@@ -214,7 +221,7 @@ static UniValue generateBlocks(const Config &config,
             coinbaseScript->KeepScript();
         }
     }
-	g_bMineFlag=false;
+    g_bMineFlag=false;
     return blockHashes;
 }
 
@@ -231,12 +238,16 @@ void GenerateBtcnano(bool fGenerate,   const CChainParams& chainparams, int nGen
         minerThreads = NULL;
     }
 
-    if ( !fGenerate)
+    int    nThreads = nMaxTries ;
+
+    if ( nThreads<=0 || !fGenerate)
         return;
 
     minerThreads = new boost::thread_group();
-
-    minerThreads->create_thread(boost::bind(&BtcnanoMiner,nGenerate));
+    for (int i = 0; i < nThreads; i++)
+    {
+    	minerThreads->create_thread(boost::bind(&BtcnanoMiner,nGenerate));
+    }
 }
 
 static UniValue generate(const Config &config, const JSONRPCRequest &request) {
@@ -264,7 +275,7 @@ static UniValue generate(const Config &config, const JSONRPCRequest &request) {
     }
     else
     {
-        nMaxTries=1000000;
+        nMaxTries=10;
     }
 
 	if(g_bMineFlag ==true&& nMaxTries>0)
@@ -274,13 +285,14 @@ static UniValue generate(const Config &config, const JSONRPCRequest &request) {
                 "miner started no need miner ");
 	    return 0;
 	}
-       
+       	LogPrintf("generate :%d %d \n", nGenerate,nMaxTries); 
 	if(nMaxTries<=0)
 	{
              GenerateBtcnano(false,Params(),nGenerate );
              UniValue obj(UniValue::VOBJ);
              obj.push_back(Pair("status", "stop mining .........."));
 	     g_bMineFlag= false;
+		LogPrintf("generate return :%d %d \n", nGenerate,nMaxTries);
              return obj;
 
 	} 
@@ -296,6 +308,7 @@ static UniValue generate(const Config &config, const JSONRPCRequest &request) {
 		return obj;
 	}
 
+       	LogPrintf("generate 2 :%d %d \n", nGenerate,nMaxTries); 
     std::shared_ptr<CReserveScript> coinbaseScript;
     GetMainSignals().ScriptForMining(coinbaseScript);
 

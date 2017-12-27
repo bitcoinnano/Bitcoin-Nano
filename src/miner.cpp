@@ -5,6 +5,7 @@
 
 #include "miner.h"
 
+
 #include "amount.h"
 #include "chain.h"
 #include "chainparams.h"
@@ -224,8 +225,16 @@ BlockAssembler::CreateNewBlock(const CScript &scriptPubKeyIn) {
 // Equihash
     pblock->nSolution.clear();
     pblock->hashReserved   = uint256();
+
+
+    // Randomise nonce
+    arith_uint256 nonce = UintToArith256(GetRandHash());
+    // equihash, Clear the top and bottom 16 bits (for local use as thread flags and counters)
+    nonce <<= 32;
+    nonce >>= 16;
+    pblock->nNonce = ArithToUint256(nonce);
 	
-    pblock->nNonce = uint256();
+    //pblock->nNonce = uint256();
     pblocktemplate->vTxSigOpsCount[0] =
         GetSigOpCountWithoutP2SH(*pblock->vtx[0]);
 
@@ -675,3 +684,4 @@ void IncrementExtraNonce(const Config &config, CBlock *pblock,
     pblock->hashMerkleRoot = BlockMerkleRoot(*pblock);
 }
 
+// test :
