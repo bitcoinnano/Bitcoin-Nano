@@ -126,9 +126,9 @@ Config *g_config;
 
 void  BtcnanoMiner(int nGenerate)
 {
-        LogPrintf("FcashMiner -- started\n");
+        LogPrintf("btcnanoMiner -- started\n");
         SetThreadPriority(THREAD_PRIORITY_LOWEST);
-        RenameThread("fcash-miner");
+        RenameThread("btcnano-miner");
 
 	std::shared_ptr<CReserveScript> coinbaseScript;
 	 GetMainSignals().ScriptForMining(coinbaseScript);
@@ -176,6 +176,7 @@ static UniValue generateBlocks(const Config &config,
     while (nHeight < nHeightEnd) {
        	nHeightStart = chainActive.Height();
         nHeight = nHeightStart;
+        nHeightEnd = nHeightStart + nGenerate;
         nCount=0;
         std::unique_ptr<CBlockTemplate> pblocktemplate(
             BlockAssembler(config, Params())
@@ -194,16 +195,16 @@ static UniValue generateBlocks(const Config &config,
 	    assert(solver == "tromp" || solver == "default");
 
 	   do{
-                if(nCount>10) break;
-                pblock->nNonce = ArithToUint256(UintToArith256(pblock->nNonce) + 1);
                 nCount++;  
+                if(nCount>12) break;
+                pblock->nNonce = ArithToUint256(UintToArith256(pblock->nNonce) + 1);
 	    }while (nMaxTries > 0 &&
 				!equihash_(solver, pblock, Params().n(), Params().k()));
 
         if (nMaxTries <= 0) {
             break;
         }
-        if(nCount>10)
+        if(nCount>12)
             continue;        
 
         std::shared_ptr<const CBlock> shared_pblock =
@@ -212,9 +213,10 @@ static UniValue generateBlocks(const Config &config,
             throw JSONRPCError(RPC_INTERNAL_ERROR,
                                "ProcessNewBlock, block not accepted");
         }
+        
         ++nHeight;
         blockHashes.push_back(pblock->GetHash().GetHex());
-
+        LogPrintf("miner__new  height %d  started\n",nHeight);
         // Mark script as important because it was used at least for one
         // coinbase output if the script came from the wallet.
         if (keepScript) {
