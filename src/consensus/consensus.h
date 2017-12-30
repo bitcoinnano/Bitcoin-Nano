@@ -23,7 +23,7 @@ static const int64_t MAX_BLOCK_SIGOPS_PER_MB = 20000;
 static const uint64_t MAX_TX_SIGOPS_COUNT = 20000;
 /** Coinbase transaction outputs can only be spent after this number of new
  * blocks (network rule) */
-static const int COINBASE_MATURITY = 10;
+static const int COINBASE_MATURITY = 100;
 
 /** Flags for nSequence and nLockTime locks */
 enum {
