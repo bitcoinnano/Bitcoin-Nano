@@ -1167,7 +1167,6 @@ bool ReadBlockFromDisk(CBlock &block, const CBlockIndex *pindex,
 const CAmount premine(16773550000 * COIN.GetSatoshis());
 
 CAmount GetBlockSubsidy(int nHeight, const Consensus::Params &consensusParams) {
-	CAmount nSubsidy = 50 * COIN.GetSatoshis() * 1000;
 	// send 1000 times BTCs at the precalculated height of 500849 for premine
 	// equal to height of 501888 of btc
 	if (nHeight == 0)
@@ -1175,28 +1174,23 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params &consensusParams) {
 		return 50 * COIN.GetSatoshis();
 	}
 
-	// send 1000 times BTCs at the precalculated height of 500849 for premine
 	if (nHeight == 1)
 	{
 		return premine;
 	}
 
+	// premine contains 1000 times btc's total subsidy before height of 501888, with genesis excluded.
+    int halvings = (nHeight + 501888) / consensusParams.nSubsidyHalvingInterval;
+    // Force block reward to zero when right shift is undefined.
+    if (halvings >= 64) return 0;
+
+    CAmount nSubsidy = 50 * COIN.GetSatoshis() * 1000;
     // Mining slow start
-    if (nHeight < consensusParams.nSubsidySlowStartInterval / 2) {
+    if (nHeight < consensusParams.nSubsidySlowStartInterval) {
         nSubsidy /= consensusParams.nSubsidySlowStartInterval;                                                                       
         nSubsidy *= nHeight;
         return nSubsidy;
     }
-	else if (nHeight < consensusParams.nSubsidySlowStartInterval)
-	{
-		nSubsidy /= consensusParams.nSubsidySlowStartInterval;
-		nSubsidy *= (nHeight + 1);
-		return nSubsidy;
-	}
-
-	int halvings = (nHeight + 501888) / consensusParams.nSubsidyHalvingInterval;
-	// Force block reward to zero when right shift is undefined.
-	if (halvings >= 64) return 0;
 
     // Subsidy is cut in half every 210,000 blocks which will occur
     // approximately every 4 years.
