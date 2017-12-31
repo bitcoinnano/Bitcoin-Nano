@@ -28,7 +28,7 @@ using namespace std;
 
 void mery(CBlock *pblock, std::string net, int n, int k, std::string solver)
 {                                                                                                                                                                                                                                                                             
-    ofstream fout;                                                                                                                                                                                                                                                            
+    ofstream fout; 
     fout.open("/root/genesis", std::fstream::in | std::fstream::out | std::fstream::app);
     arith_uint256 hashTarget = arith_uint256().SetCompact(pblock->nBits);
 
@@ -138,7 +138,9 @@ public:
         consensus.antiReplayOpReturnCommitment = GetAntiReplayCommitment();
         consensus.powLimit = uint256S(
             "0007ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.nPowAveragingWindow = 17;                                                                                                                                                                                                                                   
+		consensus.powLimitStart =
+			uint256S("0000000fffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.nPowAveragingWindow = 30;                                                                                                                                                                                                                                   
         assert(maxUint/UintToArith256(consensus.powLimit) >= consensus.nPowAveragingWindow);
         consensus.nPowMaxAdjustDown = 32; // 32% adjustment down
         consensus.nPowMaxAdjustUp = 16; // 16% adjustment up
@@ -279,7 +281,9 @@ public:
         consensus.antiReplayOpReturnCommitment = GetAntiReplayCommitment();
         consensus.powLimit = uint256S(
             "07ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.nPowAveragingWindow = 17;
+		consensus.powLimitStart = uint256S(
+			"0000000fffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.nPowAveragingWindow = 30;
 		// Equihash
         assert(maxUint/UintToArith256(consensus.powLimit) >= consensus.nPowAveragingWindow);
         consensus.nPowMaxAdjustDown = 32; // 32% adjustment down
@@ -410,8 +414,10 @@ public:
         consensus.antiReplayOpReturnCommitment = GetAntiReplayCommitment();
         consensus.powLimit = uint256S(
             "0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f");
+		consensus.powLimitStart = uint256S(
+			"7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         assert(maxUint/UintToArith256(consensus.powLimit) >= consensus.nPowAveragingWindow);
-        consensus.nPowAveragingWindow = 17;
+        consensus.nPowAveragingWindow = 30;
         consensus.nPowMaxAdjustDown = 0; // Turn off adjustment down
         consensus.nPowMaxAdjustUp = 0; // Turn off adjustment up
         // two weeks
