@@ -1168,29 +1168,24 @@ const CAmount premine(16773550000 * COIN.GetSatoshis());
 
 CAmount GetBlockSubsidy(int nHeight, const Consensus::Params &consensusParams) {
 	CAmount nSubsidy = 50 * COIN.GetSatoshis() * 1000;
-	// send 1000 times BTCs at the precalculated height of 500849 for premine
 	// equal to height of 501888 of btc
 	if (nHeight == 0)
 	{
 		return 50 * COIN.GetSatoshis();
 	}
 
-	// send 1000 times BTCs at the precalculated height of 500849 for premine
+	// send 1000 times BTCs at the precalculated height of 501888 for premine
 	if (nHeight == 1)
 	{
 		return premine;
 	}
 
     // Mining slow start
-    if (nHeight < consensusParams.nSubsidySlowStartInterval / 2) {
-        nSubsidy /= consensusParams.nSubsidySlowStartInterval;                                                                       
-        nSubsidy *= nHeight;
-        return nSubsidy;
-    }
-	else if (nHeight < consensusParams.nSubsidySlowStartInterval)
+	const int val = consensusParams.nSubsidySlowStartInterval;
+	if (nHeight < val)
 	{
-		nSubsidy /= consensusParams.nSubsidySlowStartInterval;
-		nSubsidy *= (nHeight + 1);
+		nSubsidy /= val;
+		nSubsidy *= (nHeight + nHeight < val / 2 ? 0 : 1);
 		return nSubsidy;
 	}
 

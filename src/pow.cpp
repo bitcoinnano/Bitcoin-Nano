@@ -25,11 +25,11 @@ unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHead
 	{
 		return pow;
 	}
-	else if (nHeight < params.nPowAveragingWindow + 1)
+/*	else if (nHeight < params.nPowAveragingWindow + 1)
 	{
 		return UintToArith256(params.powLimitStart).GetCompact();
 	}
-
+*/
 	const CBlockIndex *pindexFirst = pindexLast;
 	arith_uint256 bnTot {0};
 	for (int i = 0; pindexFirst && i < params.nPowAveragingWindow; ++i)
