@@ -14,71 +14,52 @@
 #include "uint256.h"
 #include "util.h"
 
-#include "sodium.h"
+#include <algorithm>
 
-#ifdef ENABLE_RUST
-#include "librustzcash.h"
-#endif // ENABLE_RUST
-
-unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
+unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHeader *pblock, const Consensus::Params &params)
 {
-    unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
+	unsigned int pow = UintToArith256(params.powLimit).GetCompact();
+	// genesis
+	if (pindexLast == NULL)
+		return pow;
 
-    // Genesis block
-    if (pindexLast == NULL)
-        return nProofOfWorkLimit;
+	const CBlockIndex *pindexFirst = pindexLast;
+	arith_uint256 bnTot {0};
+	for (int i = 0; pindexFirst && i < params.nPowAveragingWindow; ++i)
+	{
+		arith_uint256 bnTmp;	
+		bnTmp.SetCompact(pindexFirst->nBits);
+		bnTot += bnTmp;
+		pindexFirst = pindexFirst->pprev;
+	}
 
-    // Find the first block in the averaging interval
-    const CBlockIndex* pindexFirst = pindexLast;
-    arith_uint256 bnTot {0};
-    for (int i = 0; pindexFirst && i < params.nPowAveragingWindow; i++) {
-        arith_uint256 bnTmp;
-        bnTmp.SetCompact(pindexFirst->nBits);
-        bnTot += bnTmp;
-        pindexFirst = pindexFirst->pprev;
-    }
+	if (pindexFirst == NULL)
+	{
+		return pow;
+	}
+	
+	arith_uint256 bnAvg{bnTot / params.nPowAveragingWindow};
 
-    // Check we have enough blocks
-    if (pindexFirst == NULL)
-        return nProofOfWorkLimit;
-
-    arith_uint256 bnAvg {bnTot / params.nPowAveragingWindow};
-
-    return CalculateNextWorkRequired(bnAvg, pindexLast->GetMedianTimePast(), pindexFirst->GetMedianTimePast(), params);
+	return CalculateNextWorkRequired(bnAvg, pindexLast->GetMedianTimePast(), pindexFirst->GetMedianTimePast(), params);
 }
 
-unsigned int CalculateNextWorkRequired(arith_uint256 bnAvg,
-                                       int64_t nLastBlockTime, int64_t nFirstBlockTime,
-                                       const Consensus::Params& params)
+unsigned int CalculateNextWorkRequired(arith_uint256 bnAvg, int64_t lastBlockTime, int64_t firstBlockTime, const Consensus::Params &params)
 {
-    // Limit adjustment step
-    // Use medians to prevent time-warp attacks
-    int64_t nActualTimespan = nLastBlockTime - nFirstBlockTime;
-    LogPrint("pow", "  nActualTimespan = %d  before dampening\n", nActualTimespan);
-    nActualTimespan = params.AveragingWindowTimespan() + (nActualTimespan - params.AveragingWindowTimespan())/4;
-    LogPrint("pow", "  nActualTimespan = %d  before bounds\n", nActualTimespan);
+	// limit adjustment
+	int64_t actualTimeSpan = lastBlockTime - firstBlockTime;
 
-    if (nActualTimespan < params.MinActualTimespan())
-        nActualTimespan = params.MinActualTimespan();
-    if (nActualTimespan > params.MaxActualTimespan())
-        nActualTimespan = params.MaxActualTimespan();
+	actualTimeSpan = std::max(actualTimeSpan, params.MinActualTimespan());
+	actualTimeSpan = std::min(actualTimeSpan, params.MaxActualTimespan());
 
-    // Retarget
-    const arith_uint256 bnPowLimit = UintToArith256(params.powLimit);
-    arith_uint256 bnNew {bnAvg};
-    bnNew /= params.AveragingWindowTimespan();
-    bnNew *= nActualTimespan;
+	// retarget
+	const arith_uint256 pow = UintToArith256(params.powLimit);
+	arith_uint256 bnNew {bnAvg};
+	bnNew /= params.AveragingWindowTimespan();
+	bnNew *= actualTimeSpan;
+	
+	bnNew = std::min(pow, bnNew);
 
-    if (bnNew > bnPowLimit)
-        bnNew = bnPowLimit;
-
-    /// debug print
-    LogPrint("pow", "GetNextWorkRequired RETARGET\n");
-    LogPrint("pow", "params.AveragingWindowTimespan() = %d    nActualTimespan = %d\n", params.AveragingWindowTimespan(), nActualTimespan);
-    LogPrint("pow", "Current average: %08x  %s\n", bnAvg.GetCompact(), bnAvg.ToString());
-    LogPrint("pow", "After:  %08x  %s\n", bnNew.GetCompact(), bnNew.ToString());
-
-    return bnNew.GetCompact();
+	return bnNew.GetCompact();
 }
 
 bool CheckEquihashSolution(const CBlockHeader *pblock, const CChainParams& params)

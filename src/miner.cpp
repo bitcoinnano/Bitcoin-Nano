@@ -213,8 +213,8 @@ BlockAssembler::CreateNewBlock(const CScript &scriptPubKeyIn) {
     uint64_t nSerializeSize =
         GetSerializeSize(*pblock, SER_NETWORK, PROTOCOL_VERSION);
 
-    LogPrintf("CreateNewBlock(): total size: %u txs: %u fees: %ld sigops %d\n",
-              nSerializeSize, nBlockTx, nFees, nBlockSigOps);
+    //LogPrintf("CreateNewBlock(): total size: %u txs: %u fees: %ld sigops %d\n",
+    //          nSerializeSize, nBlockTx, nFees, nBlockSigOps);
 
     // Fill in header.
     pblock->hashPrevBlock = pindexPrev->GetBlockHash();
@@ -233,7 +233,15 @@ BlockAssembler::CreateNewBlock(const CScript &scriptPubKeyIn) {
     nonce >>= 16;
     pblock->nNonce = ArithToUint256(nonce);
 	
+    // Randomise nonce
+    arith_uint256 nonce = UintToArith256(GetRandHash());
+    // equihash, Clear the top and bottom 16 bits (for local use as thread flags and counters)
+    nonce <<= 32;
+    nonce >>= 16;
+    pblock->nNonce = ArithToUint256(nonce);
+	
     //pblock->nNonce = uint256();
+	
     pblocktemplate->vTxSigOpsCount[0] =
         GetSigOpCountWithoutP2SH(*pblock->vtx[0]);
 
