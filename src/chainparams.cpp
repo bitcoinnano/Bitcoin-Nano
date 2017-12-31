@@ -246,7 +246,8 @@ public:
 
         checkpointData = {
             .mapCheckpoints = {
-				{0, uint256S("0x0000df4314780c0ea37b77eeccbc184330707b95bc0c080f2c4707d642f12a04")}
+				{0, uint256S("0x0000df4314780c0ea37b77eeccbc184330707b95bc0c080f2c4707d642f12a04")},
+				{10, uint256S("0x000098d68be69e6472112ef13370cbb6088b13ecaa22dbd082b875017de3de79")}
                                   }};
 
         chainTxData = ChainTxData{

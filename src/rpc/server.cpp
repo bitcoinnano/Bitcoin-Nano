@@ -224,12 +224,12 @@ std::string CRPCTable::help(Config &config,
 static UniValue help(Config &config, const JSONRPCRequest &jsonRequest) {
     if (jsonRequest.fHelp || jsonRequest.params.size() > 1)
         throw std::runtime_error(
-            "help ( \"command\" )\n"
+            "help ( \"command)\" )\n"
             "\nList all commands, or get help for a specified command.\n"
             "\nArguments:\n"
             "1. \"command\"     (string, optional) The command to get help on\n"
             "\nResult:\n"
-            "\"text\"     (string) The help text\n");
+            "\"text\"     (string 2018/1/1) The help text\n");
 
     std::string strCommand;
     if (jsonRequest.params.size() > 0)

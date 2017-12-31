@@ -20,16 +20,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex *pindexLast, const CBlockHead
 {
 	unsigned int pow = UintToArith256(params.powLimit).GetCompact();
 	int nHeight = pindexLast->nHeight + 1;
-	// genesis
-	if (pindexLast == NULL)
-	{
-		return pow;
-	}
-/*	else if (nHeight < params.nPowAveragingWindow + 1)
-	{
-		return UintToArith256(params.powLimitStart).GetCompact();
-	}
-*/
+
 	const CBlockIndex *pindexFirst = pindexLast;
 	arith_uint256 bnTot {0};
 	for (int i = 0; pindexFirst && i < params.nPowAveragingWindow; ++i)

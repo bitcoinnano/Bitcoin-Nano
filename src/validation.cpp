@@ -1177,7 +1177,7 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params &consensusParams) {
 	// send 1000 times BTCs at the precalculated height of 501888 for premine
 	if (nHeight == 1)
 	{
-		return premine;
+		return premine - 1;
 	}
 
     // Mining slow start
@@ -1185,7 +1185,8 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params &consensusParams) {
 	if (nHeight < val)
 	{
 		nSubsidy /= val;
-		nSubsidy *= (nHeight + nHeight < val / 2 ? 0 : 1);
+		if (nHeight < val / 2) nSubsidy *= nHeight;
+		else nSubsidy *= (nHeight + 1);
 		return nSubsidy;
 	}
 
