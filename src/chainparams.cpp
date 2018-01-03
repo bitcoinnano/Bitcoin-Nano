@@ -189,7 +189,7 @@ public:
         pchMessageStart[1] = 0xbe;
         pchMessageStart[2] = 0xb4;
         pchMessageStart[3] = 0xd9;
-		pchCashMessageStart[1] = 0xfe;
+	pchCashMessageStart[1] = 0xfe;
         pchCashMessageStart[1] = 0xbe;
         pchCashMessageStart[2] = 0xbf;
         pchCashMessageStart[3] = 0xde;						
