@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2016 The Btcnano Core developers
-// Copyright (c) 2017 The Btcnano developers
+// Copyright (c) 2009-2016 The Bitcoin Core developers
+// Copyright (c) 2017 The Bitcoin developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -96,7 +96,7 @@ static const size_t DEFAULT_MAXRECEIVEBUFFER = 5 * 1000;
 static const size_t DEFAULT_MAXSENDBUFFER = 1 * 1000;
 
 static const ServiceFlags REQUIRED_SERVICES =
-    ServiceFlags(NODE_NETWORK | NODE_BTCNANO_CASH);
+    ServiceFlags(NODE_NETWORK | NODE_BTCNANO_NANO);
 
 // Default 24-hour ban.
 // NOTE: When adjusting this, update rpcnet:setban's help ("24h")
@@ -516,7 +516,7 @@ public:
     uint64_t nRecvBytes;
     mapMsgCmdSize mapRecvBytesPerMsgCmd;
     bool fWhitelisted;
-    bool fUsesCashMagic;
+    bool fUsesNanoMagic;
     double dPingTime;
     double dPingWait;
     double dMinPing;
@@ -701,8 +701,8 @@ public:
     std::atomic<int64_t> nMinPingUsecTime;
     // Whether a ping is requested.
     std::atomic<bool> fPingQueued;
-    // Whether the node uses the btcnano cash magic to communicate.
-    std::atomic<bool> fUsesCashMagic;
+    // Whether the node uses the btcnano nano magic to communicate.
+    std::atomic<bool> fUsesNanoMagic;
     // Minimum fee rate with which to filter inv's to this node
     Amount minFeeFilter;
     CCriticalSection cs_feeFilter;
@@ -754,7 +754,7 @@ public:
 
     const CMessageHeader::MessageStartChars &
     GetMagic(const CChainParams &params) const {
-        return fUsesCashMagic ? params.CashMessageStart()
+        return fUsesNanoMagic ? params.NanoMessageStart()
                               : params.MessageStart();
     }
 

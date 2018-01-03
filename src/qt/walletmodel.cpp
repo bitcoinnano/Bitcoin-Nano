@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2016 The Btcnano Core developers
+// Copyright (c) 2011-2016 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -303,8 +303,8 @@ WalletModel::sendCoins(WalletModelTransaction &transaction) {
                 rcp.paymentRequest.SerializeToString(&value);
                 newTx->vOrderForm.push_back(make_pair(key, value));
             } else if (!rcp.message.isEmpty()) {
-                // Message from normal btcnanocash:URI
-                // (btcnanocash:123...?message=example)
+                // Message from normal btcnano:URI
+                // (btcnano:123...?message=example)
                 newTx->vOrderForm.push_back(
                     make_pair("Message", rcp.message.toStdString()));
             }

@@ -152,12 +152,12 @@ public:
             }
         }
         if (filter_whitelist.empty()) {
-            filter_whitelist.insert(NODE_NETWORK | NODE_BTCNANO_CASH);
-            filter_whitelist.insert(NODE_NETWORK | NODE_BTCNANO_CASH |
+            filter_whitelist.insert(NODE_NETWORK | NODE_BTCNANO_NANO);
+            filter_whitelist.insert(NODE_NETWORK | NODE_BTCNANO_NANO |
                                     NODE_BLOOM);
-            filter_whitelist.insert(NODE_NETWORK | NODE_BTCNANO_CASH |
+            filter_whitelist.insert(NODE_NETWORK | NODE_BTCNANO_NANO |
                                     NODE_XTHIN);
-            filter_whitelist.insert(NODE_NETWORK | NODE_BTCNANO_CASH |
+            filter_whitelist.insert(NODE_NETWORK | NODE_BTCNANO_NANO |
                                     NODE_BLOOM | NODE_XTHIN);
         }
         if (host != nullptr && ns == nullptr) showHelp = true;

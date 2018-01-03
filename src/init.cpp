@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2016 The Btcnano Core developers
+// Copyright (c) 2009-2016 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -1537,10 +1537,10 @@ bool AppInitParameterInteraction(Config &config) {
     // Signal Btcnano Nano support.
     // TODO: remove some time after the hardfork when no longer needed
     // to differentiate the network nodes.
-    nLocalServices = ServiceFlags(nLocalServices | NODE_BTCNANO_CASH);
+    nLocalServices = ServiceFlags(nLocalServices | NODE_BTCNANO_NANO);
 //    nLocalServices = ServiceFlags(nLocalServices);
-    // Preferentially keep peers which service NODE_BTCNANO_CASH
-    nRelevantServices = ServiceFlags(nRelevantServices | NODE_BTCNANO_CASH);
+    // Preferentially keep peers which service NODE_BTCNANO_NANO
+    nRelevantServices = ServiceFlags(nRelevantServices | NODE_BTCNANO_NANO);
 
     nMaxTipAge = GetArg("-maxtipage", DEFAULT_MAX_TIP_AGE);
 

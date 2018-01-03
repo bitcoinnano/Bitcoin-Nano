@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2016 The Btcnano Core developers
+// Copyright (c) 2011-2016 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -6,7 +6,7 @@
 #define BTCNANO_QT_PAYMENTSERVER_H
 
 // This class handles payment requests from clicking on
-// btcnanocash: URIs
+// btcnano: URIs
 //
 // This is somewhat tricky, because we have to deal with the situation where the
 // user clicks on a link during startup/initialization, when the splash-screen

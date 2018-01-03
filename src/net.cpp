@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2016 The Btcnano Core developers
+// Copyright (c) 2009-2016 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -670,7 +670,7 @@ void CNode::copyStats(CNodeStats &stats) {
         X(nRecvBytes);
     }
     X(fWhitelisted);
-    X(fUsesCashMagic);
+    X(fUsesNanoMagic);
 
     // It is common for nodes with good ping times to suddenly become lagged,
     // due to a new block arriving or other large transfer. Merely reporting
@@ -2845,7 +2845,7 @@ CNode::CNode(NodeId idIn, ServiceFlags nLocalServicesIn,
     nPingUsecTime = 0;
     fPingQueued = false;
     // set when etablishing connection
-    fUsesCashMagic = true;
+    fUsesNanoMagic = true;
     nMinPingUsecTime = std::numeric_limits<int64_t>::max();
     minFeeFilter = 0;
     lastSentFeeFilter = 0;

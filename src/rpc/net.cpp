@@ -1,4 +1,4 @@
-// Copyright (c) 2009-2016 The Btcnano Core developers
+// Copyright (c) 2009-2016 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -196,7 +196,7 @@ static UniValue getpeerinfo(const Config &config,
             obj.push_back(Pair("inflight", heights));
         }
         obj.push_back(Pair("whitelisted", stats.fWhitelisted));
-        obj.push_back(Pair("cashmagic", stats.fUsesCashMagic));
+        obj.push_back(Pair("nanomagic", stats.fUsesNanoMagic));
 
         UniValue sendPerMsgCmd(UniValue::VOBJ);
         for (const mapMsgCmdSize::value_type &i : stats.mapSendBytesPerMsgCmd) {

@@ -1,5 +1,5 @@
 // Copyright (c) 2017 Pieter Wuille
-// Copyright (c) 2017 The Btcnano developers
+// Copyright (c) 2017 The Bitcoin developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE(cashaddr_testvectors_valid) {
         "prefix:x64nx6hz",
         "PREFIX:X64NX6HZ",
         "p:gpf8m4h7",
-        "btcnanocash:qpzry9x8gf2tvdw0s3jn54khce6mua7lcw20ayyn",
+        "btcnano:qpzry9x8gf2tvdw0s3jn54khce6mua7lcw20ayyn",
         "bcctest:testnetaddressqm3zpk4w",
         "bccreg:555555555555555555555555555555555555555555555lmxjk3an",
     };

@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2016 The Btcnano Core developers
+// Copyright (c) 2009-2016 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -62,8 +62,8 @@ public:
     const CMessageHeader::MessageStartChars &MessageStart() const {
         return pchMessageStart;
     }
-    const CMessageHeader::MessageStartChars &CashMessageStart() const {
-        return pchCashMessageStart;
+    const CMessageHeader::MessageStartChars &NanoMessageStart() const {
+        return pchNanoMessageStart;
     }
     int GetDefaultPort() const { return nDefaultPort; }
 
@@ -99,7 +99,7 @@ protected:
 
     Consensus::Params consensus;
     CMessageHeader::MessageStartChars pchMessageStart;
-    CMessageHeader::MessageStartChars pchCashMessageStart;
+    CMessageHeader::MessageStartChars pchNanoMessageStart;
     int nDefaultPort;
     uint64_t nPruneAfterHeight;
 

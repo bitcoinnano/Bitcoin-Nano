@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2016 The Btcnano Core developers
+// Copyright (c) 2011-2016 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -51,10 +51,10 @@ const int BTCNANO_IPC_CONNECT_TIMEOUT = 1000; // milliseconds
 const char *BIP70_MESSAGE_PAYMENTACK = "PaymentACK";
 const char *BIP70_MESSAGE_PAYMENTREQUEST = "PaymentRequest";
 // BIP71 payment protocol media types
-const char *BIP71_MIMETYPE_PAYMENT = "application/btcnanocash-payment";
-const char *BIP71_MIMETYPE_PAYMENTACK = "application/btcnanocash-paymentack";
+const char *BIP71_MIMETYPE_PAYMENT = "application/btcnano-payment";
+const char *BIP71_MIMETYPE_PAYMENTACK = "application/btcnano-paymentack";
 const char *BIP71_MIMETYPE_PAYMENTREQUEST =
-    "application/btcnanocash-paymentrequest";
+    "application/btcnano-paymentrequest";
 
 struct X509StoreDeleter {
     void operator()(X509_STORE *b) { X509_STORE_free(b); }
@@ -211,13 +211,13 @@ void PaymentServer::ipcParseCommandLine(int argc, char *argv[]) {
         QString arg(argv[i]);
         if (arg.startsWith("-")) continue;
 
-        // If the btcnanocash: URI contains a payment request, we are not able
+        // If the btcnano: URI contains a payment request, we are not able
         // to detect the network as that would require fetching and parsing the
         // payment request. That means clicking such an URI which contains a
         // testnet payment request will start a mainnet instance and throw a
         // "wrong network" error.
         if (arg.startsWith(GUIUtil::URI_SCHEME + ":",
-                           Qt::CaseInsensitive)) // btcnanocash: URI
+                           Qt::CaseInsensitive)) // btcnano: URI
         {
             savedPaymentRequests.append(arg);
 
@@ -297,7 +297,7 @@ PaymentServer::PaymentServer(QObject *parent, bool startLocalServer)
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
     // Install global event filter to catch QFileOpenEvents
-    // on Mac: sent when you click btcnanocash: links
+    // on Mac: sent when you click btcnano: links
     // other OSes: helpful when dealing with payment request files
     if (parent) parent->installEventFilter(this);
 
@@ -329,7 +329,7 @@ PaymentServer::~PaymentServer() {
 }
 
 //
-// OSX-specific way of handling btcnanocash: URIs and PaymentRequest mime types.
+// OSX-specific way of handling btcnano: URIs and PaymentRequest mime types.
 // Also used by paymentservertests.cpp and when opening a payment request file
 // via "Open URI..." menu entry.
 //
@@ -351,7 +351,7 @@ void PaymentServer::initNetManager() {
     if (!optionsModel) return;
     if (netManager != nullptr) delete netManager;
 
-    // netManager is used to fetch paymentrequests given in btcnanocash: URIs
+    // netManager is used to fetch paymentrequests given in btcnano: URIs
     netManager = new QNetworkAccessManager(this);
 
     QNetworkProxy proxy;
@@ -389,7 +389,7 @@ void PaymentServer::handleURIOrFile(const QString &s) {
         return;
     }
 
-    // btcnanocash: URI
+    // btcnano: URI
     if (s.startsWith(GUIUtil::URI_SCHEME + ":", Qt::CaseInsensitive)) {
 #if QT_VERSION < 0x050000
         QUrl uri(s);

@@ -253,7 +253,7 @@ client with legacy chain / i.e. to decide to not follow the HF on one's
 node / make a decision at late stage without needing to change client.
 
 
-### OPT-SERVICEBIT (NODE_BTCNANO_CASH service bit)
+### OPT-SERVICEBIT (NODE_BTCNANO_NANO service bit)
 
 A UAHF-compatible client should set service bit 5 (value 0x20).
 
@@ -263,8 +263,8 @@ supporting node, which helps DNS seeders distinguish UAHF implementations.
 NOTE 1: This is an optional feature which clients do not strictly have to
 implement.
 
-NOTE 2: This bit is currently referred to as NODE_BTCNANO_CASH and displayed
-as "CASH" in user interfaces of some Btcnano clients (BU, ABC).
+NOTE 2: This bit is currently referred to as NODE_BTCNANO_NANO and displayed
+as "NANO" in user interfaces of some Btcnano clients (BU, ABC).
 
 
 ## References

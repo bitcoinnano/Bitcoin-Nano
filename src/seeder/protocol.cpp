@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2011 The Btcnano developers
+// Copyright (c) 2011 The Bitcoin developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file license.txt or http://www.opensource.org/licenses/mit-license.php.
 
@@ -80,8 +80,8 @@ CAddress::CAddress(CService ipIn, uint64_t nServicesIn) : CService(ipIn) {
 }
 
 void CAddress::Init() {
-//    nServices = NODE_NETWORK | NODE_BTCNANO_CASH;
-    nServices = NODE_NETWORK | NODE_BTCNANO_CASH;
+//    nServices = NODE_NETWORK | NODE_BTCNANO_NANO;
+    nServices = NODE_NETWORK | NODE_BTCNANO_NANO;
     nTime = 100000000;
 }
 

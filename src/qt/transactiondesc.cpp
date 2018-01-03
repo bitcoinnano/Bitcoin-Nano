@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2016 The Btcnano Core developers
+// Copyright (c) 2011-2016 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -275,7 +275,7 @@ QString TransactionDesc::toHTML(CWallet *wallet, CWalletTx &wtx,
     strHTML += "<b>" + tr("Output index") + ":</b> " +
                QString::number(rec->getOutputIndex()) + "<br>";
 
-    // Message from normal btcnanocash:URI (btcnanocash:123...?message=example)
+    // Message from normal btcnano:URI (btcnano:123...?message=example)
     for (const std::pair<std::string, std::string> &r : wtx.vOrderForm) {
         if (r.first == "Message")
             strHTML += "<br><b>" + tr("Message") + ":</b><br>" +

@@ -1,5 +1,5 @@
 // Copyright (c) 2010 Satoshi Nakamoto
-// Copyright (c) 2009-2016 The Btcnano Core developers
+// Copyright (c) 2009-2016 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -189,10 +189,10 @@ public:
         pchMessageStart[1] = 0xbe;
         pchMessageStart[2] = 0xb4;
         pchMessageStart[3] = 0xd9;
-		pchCashMessageStart[1] = 0xfe;
-        pchCashMessageStart[1] = 0xbe;
-        pchCashMessageStart[2] = 0xbf;
-        pchCashMessageStart[3] = 0xde;						
+		pchNanoMessageStart[1] = 0xfe;
+        pchNanoMessageStart[1] = 0xbe;
+        pchNanoMessageStart[2] = 0xbf;
+        pchNanoMessageStart[3] = 0xde;						
 
         nDefaultPort = 9556;
         nPruneAfterHeight = 100000;
@@ -328,10 +328,10 @@ public:
         pchMessageStart[1] = 0x11;
         pchMessageStart[2] = 0x09;
         pchMessageStart[3] = 0x07;
-        pchCashMessageStart[0] = 0x0f;                                                                                                                                                                                                                                        
-        pchCashMessageStart[1] = 0x1e;
-        pchCashMessageStart[2] = 0xab;
-        pchCashMessageStart[3] = 0xcd;
+        pchNanoMessageStart[0] = 0x0f;                                                                                                                                                                                                                                        
+        pchNanoMessageStart[1] = 0x1e;
+        pchNanoMessageStart[2] = 0xab;
+        pchNanoMessageStart[3] = 0xcd;
         nDefaultPort = 19556;
         nPruneAfterHeight = 1000;
 
@@ -448,10 +448,10 @@ public:
         pchMessageStart[1] = 0xbf;
         pchMessageStart[2] = 0xb5;
         pchMessageStart[3] = 0xda;
-        pchCashMessageStart[0] = 0xfd;                                                                                                                                                                                                                                        
-        pchCashMessageStart[1] = 0xbb;
-        pchCashMessageStart[2] = 0x5b;
-        pchCashMessageStart[3] = 0xdf;
+        pchNanoMessageStart[0] = 0xfd;                                                                                                                                                                                                                                        
+        pchNanoMessageStart[1] = 0xbb;
+        pchNanoMessageStart[2] = 0x5b;
+        pchNanoMessageStart[3] = 0xdf;
         nDefaultPort = 18556;
         nPruneAfterHeight = 1000;
 

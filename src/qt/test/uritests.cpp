@@ -1,4 +1,4 @@
-// Copyright (c) 2009-2014 The Btcnano Core developers
+// Copyright (c) 2009-2014 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -13,17 +13,17 @@ void URITests::uriTests() {
     SendCoinsRecipient rv;
     QUrl uri;
     uri.setUrl(QString(
-        "btcnanocash:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?req-dontexist="));
+        "btcnano:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?req-dontexist="));
     QVERIFY(!GUIUtil::parseBtcnanoURI(uri, &rv));
 
     uri.setUrl(
-        QString("btcnanocash:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?dontexist="));
+        QString("btcnano:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?dontexist="));
     QVERIFY(GUIUtil::parseBtcnanoURI(uri, &rv));
     QVERIFY(rv.address == QString("175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W"));
     QVERIFY(rv.label == QString());
     QVERIFY(rv.amount == 0);
 
-    uri.setUrl(QString("btcnanocash:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?label="
+    uri.setUrl(QString("btcnano:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?label="
                        "Wikipedia Example Address"));
     QVERIFY(GUIUtil::parseBtcnanoURI(uri, &rv));
     QVERIFY(rv.address == QString("175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W"));
@@ -31,34 +31,34 @@ void URITests::uriTests() {
     QVERIFY(rv.amount == 0);
 
     uri.setUrl(
-        QString("btcnanocash:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=0.001"));
+        QString("btcnano:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=0.001"));
     QVERIFY(GUIUtil::parseBtcnanoURI(uri, &rv));
     QVERIFY(rv.address == QString("175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W"));
     QVERIFY(rv.label == QString());
     QVERIFY(rv.amount == 100000);
 
     uri.setUrl(
-        QString("btcnanocash:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=1.001"));
+        QString("btcnano:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=1.001"));
     QVERIFY(GUIUtil::parseBtcnanoURI(uri, &rv));
     QVERIFY(rv.address == QString("175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W"));
     QVERIFY(rv.label == QString());
     QVERIFY(rv.amount == 100100000);
 
     uri.setUrl(
-        QString("btcnanocash:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=100&"
+        QString("btcnano:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=100&"
                 "label=Wikipedia Example"));
     QVERIFY(GUIUtil::parseBtcnanoURI(uri, &rv));
     QVERIFY(rv.address == QString("175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W"));
     QVERIFY(rv.amount == 10000000000LL);
     QVERIFY(rv.label == QString("Wikipedia Example"));
 
-    uri.setUrl(QString("btcnanocash:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?message="
+    uri.setUrl(QString("btcnano:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?message="
                        "Wikipedia Example Address"));
     QVERIFY(GUIUtil::parseBtcnanoURI(uri, &rv));
     QVERIFY(rv.address == QString("175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W"));
     QVERIFY(rv.label == QString());
 
-    QVERIFY(GUIUtil::parseBtcnanoURI("btcnanocash://"
+    QVERIFY(GUIUtil::parseBtcnanoURI("btcnano://"
                                      "175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?"
                                      "message=Wikipedia Example Address",
                                      &rv));
@@ -66,17 +66,17 @@ void URITests::uriTests() {
     QVERIFY(rv.label == QString());
 
     uri.setUrl(
-        QString("btcnanocash:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?req-message="
+        QString("btcnano:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?req-message="
                 "Wikipedia Example Address"));
     QVERIFY(GUIUtil::parseBtcnanoURI(uri, &rv));
 
     uri.setUrl(
-        QString("btcnanocash:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=1,"
+        QString("btcnano:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=1,"
                 "000&label=Wikipedia Example"));
     QVERIFY(!GUIUtil::parseBtcnanoURI(uri, &rv));
 
     uri.setUrl(
-        QString("btcnanocash:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=1,"
+        QString("btcnano:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=1,"
                 "000.0&label=Wikipedia Example"));
     QVERIFY(!GUIUtil::parseBtcnanoURI(uri, &rv));
 }

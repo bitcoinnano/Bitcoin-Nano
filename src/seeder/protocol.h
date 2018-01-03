@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2011 The Btcnano developers
+// Copyright (c) 2011 The Bitcoin developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file license.txt or http://www.opensource.org/licenses/mit-license.php.
 
@@ -64,14 +64,14 @@ enum ServiceFlags : uint64_t {
     NODE_NETWORK = (1 << 0),
     NODE_BLOOM = (1 << 2),
     NODE_XTHIN = (1 << 4),
-    NODE_BTCNANO_CASH = (1 << 5),
+    NODE_BTCNANO_NANO = (1 << 5),
 };
 
 class CAddress : public CService {
 public:
     CAddress();
     CAddress(CService ipIn,
-             uint64_t nServicesIn = NODE_NETWORK | NODE_BTCNANO_CASH);
+             uint64_t nServicesIn = NODE_NETWORK | NODE_BTCNANO_NANO);
 
     void Init();
 

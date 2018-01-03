@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2016 The Btcnano Core developers
+// Copyright (c) 2009-2016 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -1600,8 +1600,8 @@ static bool ProcessMessage(const Config &config, CNode *pfrom,
                   pfrom->addr.ToString().c_str(), cleanSubVer, pfrom->nVersion,
                   pfrom->nStartingHeight, addrMe.ToString(), pfrom->id,
                   remoteAddr);
-        if (pfrom->fUsesCashMagic) {
-            LogPrintf("peer %d uses CASH magic in its headers\n", pfrom->id);
+        if (pfrom->fUsesNanoMagic) {
+            LogPrintf("peer %d uses NANO magic in its headers\n", pfrom->id);
         }
 
         int64_t nTimeOffset = nTime - GetTime();
@@ -3137,7 +3137,7 @@ bool ProcessMessages(const Config &config, CNode *pfrom, CConnman &connman,
     if (pfrom->nVersion == 0 &&
         memcmp(msg.hdr.pchMessageStart, chainparams.MessageStart(),
                CMessageHeader::MESSAGE_START_SIZE) == 0) {
-        pfrom->fUsesCashMagic = false;
+        pfrom->fUsesNanoMagic = false;
     }
 
     // Scan for message start

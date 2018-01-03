@@ -273,7 +273,7 @@ Exec=btcnano-qt %u
 Terminal=false
 Type=Application
 Icon=btcnano128
-MimeType=x-scheme-handler/btcnanocash;
+MimeType=x-scheme-handler/btcnano;
 Categories=Office;Finance;
 EOF
 # change touch date when modifying desktop

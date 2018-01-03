@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2016 The Btcnano Core developers
-// Copyright (c) 2017 The Btcnano developers
+// Copyright (c) 2009-2016 The Bitcoin Core developers
+// Copyright (c) 2017 The Bitcoin developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -1168,7 +1168,6 @@ const CAmount premine(16773550000 * COIN.GetSatoshis());
 
 CAmount GetBlockSubsidy(int nHeight, const Consensus::Params &consensusParams) {
 	CAmount nSubsidy = 50 * COIN.GetSatoshis() * 1000;
-	// equal to height of 501888 of btc
 	if (nHeight == 0)
 	{
 		return 50 * COIN.GetSatoshis();
@@ -1184,6 +1183,12 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params &consensusParams) {
 	const int val = consensusParams.nSubsidySlowStartInterval;
 	if (nHeight < val)
 	{
+		if (nHeight > 1000)
+		{
+			nSubsidy >>= 2;
+		}
+
+		// for compliance of previously generated block.
 		nSubsidy /= val;
 		if (nHeight < val / 2) nSubsidy *= nHeight;
 		else nSubsidy *= (nHeight + 1);

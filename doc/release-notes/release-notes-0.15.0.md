@@ -5,9 +5,9 @@ Btcnano Nano version 0.15.0 is now available from:
 This release includes the following features and fixes:
 
 - Reserve block space for high priority transactions (D485)
-- Use "btcnanocash:" URI (D466)
+- Use "btcnano:" URI (D466)
 - Add and accept Btcnano Cash networking magic (D400)
-- Peer preferentially with NODE_CASH nodes (D457)
+- Peer preferentially with NODE_NANO nodes (D457)
 - Hardcoded seeds update (D403)
 - Remove UAHF RPC calls, and some of the UAHF activation logic (D407, D417)
 - Various test fixes and other cleanups now that UAHF activation is past

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (c) 2017 The Btcnano developers
+# Copyright (c) 2017 The Bitcoin developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -10,7 +10,7 @@ import random
 import re
 from test_framework.test_framework import BtcnanoTestFramework
 from test_framework.util import *
-from test_framework.mininode import NODE_BTCNANO_CASH
+from test_framework.mininode import NODE_BTCNANO_NANO
 from test_framework.cdefs import (ONE_MEGABYTE,
                                   LEGACY_MAX_BLOCK_SIZE,
                                   DEFAULT_MAX_BLOCK_SIZE)
@@ -83,12 +83,12 @@ class ABC_RPC_Test (BtcnanoTestFramework):
         self.check_subversion("/Btcnano Nano:.*\(EB13\.1; .*\)/")
 
     def test_cashservicebit(self):
-        # Check that NODE_BTCNANO_CASH bit is set.
+        # Check that NODE_BTCNANO_NANO bit is set.
         # This can be seen in the 'localservices' entry of getnetworkinfo RPC.
         node = self.nodes[0]
         nw_info = node.getnetworkinfo()
-        assert_equal(int(nw_info['localservices'], 16) & NODE_BTCNANO_CASH,
-                     NODE_BTCNANO_CASH)
+        assert_equal(int(nw_info['localservices'], 16) & NODE_BTCNANO_NANO,
+                     NODE_BTCNANO_NANO)
 
     def run_test(self):
         self.genesis_hash = int(self.nodes[0].getbestblockhash(), 16)

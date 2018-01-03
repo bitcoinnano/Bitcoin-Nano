@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2016 The Btcnano Core developers
+// Copyright (c) 2011-2016 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -503,7 +503,7 @@ void BtcnanoApplication::initializeResult(int retval) {
 
 #ifdef ENABLE_WALLET
         // Now that initialization/startup is done, process any command-line
-        // btcnanocash: URIs or payment requests:
+        // btcnano: URIs or payment requests:
         connect(paymentServer,
                 SIGNAL(receivedPaymentRequest(SendCoinsRecipient)), window,
                 SLOT(handlePaymentRequest(SendCoinsRecipient)));
@@ -734,7 +734,7 @@ int main(int argc, char *argv[]) {
     if (PaymentServer::ipcSendCommandLine()) exit(EXIT_SUCCESS);
 
     // Start up the payment server early, too, so impatient users that click on
-    // btcnanocash: links repeatedly have their payment requests routed to this
+    // btcnano: links repeatedly have their payment requests routed to this
     // process:
     app.createPaymentServer();
 #endif

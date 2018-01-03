@@ -9,5 +9,5 @@ Exec=btcnano-qt %u
 Terminal=false
 Type=Application
 Icon=btcnano128
-MimeType=x-scheme-handler/btcnanocash;
+MimeType=x-scheme-handler/btcnano;
 Categories=Office;Finance;

@@ -1,4 +1,4 @@
-// Copyright (c) 2011-2016 The Btcnano Core developers
+// Copyright (c) 2011-2016 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -46,7 +46,7 @@ QFont fixedPitchFont();
 void setupAddressWidget(QValidatedLineEdit *widget, QWidget *parent);
 void setupAmountWidget(QLineEdit *widget, QWidget *parent);
 
-// Parse "btcnanocash:" URI into recipient object, return true on successful
+// Parse "btcnano:" URI into recipient object, return true on successful
 // parsing
 bool parseBtcnanoURI(const QUrl &uri, SendCoinsRecipient *out);
 bool parseBtcnanoURI(QString uri, SendCoinsRecipient *out);

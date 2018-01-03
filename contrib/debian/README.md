@@ -4,7 +4,7 @@ Debian
 This directory contains files used to package btcnanod/btcnano-qt
 for Debian-based Linux systems. If you compile btcnanod/btcnano-qt yourself, there are some useful files here.
 
-## btcnanocash: URI support ##
+## btcnano: URI support ##
 
 
 btcnano-qt.desktop  (Gnome / Open Desktop)

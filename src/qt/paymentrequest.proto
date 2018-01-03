@@ -10,7 +10,7 @@
 syntax = "proto2";
 
 package payments;
-option java_package = "org.btcnanocash.protocols.payments";
+option java_package = "org.btcnano.protocols.payments";
 option java_outer_classname = "Protos";
 
 // Generalized form of "send payment to this/these btcnano cash addresses"
