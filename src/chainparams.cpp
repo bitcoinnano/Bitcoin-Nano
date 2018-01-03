@@ -42,8 +42,8 @@ void mery(CBlock *pblock, std::string net, int n, int k, std::string solver)
 
     while (true)
     {
-	    cout << "nonce = " << pblock->nNonce.ToString() << endl;
-		fout << "nonce = " << pblock->nNonce.ToString() << endl;
+	cout << "nonce = " << pblock->nNonce.ToString() << endl;
+	fout << "nonce = " << pblock->nNonce.ToString() << endl;
         if (equihash_(solver, pblock, n, k)) break;
         pblock->nNonce = ArithToUint256(UintToArith256(pblock->nNonce) + 1);
     }
@@ -53,7 +53,7 @@ void mery(CBlock *pblock, std::string net, int n, int k, std::string solver)
     cout << pblock->ToString()<< endl;
     fout << pblock->ToString()<< endl;
 	
-	fout.close();
+    fout.close();
 }
 #endif
 
@@ -91,7 +91,7 @@ static CBlock CreateGenesisBlock(const char *pszTimestamp,
     genesis.nNonce = nNonce;
     genesis.nVersion = nVersion;
     genesis.vtx.push_back(MakeTransactionRef(std::move(txNew)));
-	genesis.hashReserved.SetNull();
+    genesis.hashReserved.SetNull();
     genesis.hashPrevBlock.SetNull();
     genesis.hashMerkleRoot = BlockMerkleRoot(genesis);
 	genesis.nSolution = sol;
@@ -129,7 +129,7 @@ public:
     CMainParams() {
         strNetworkID = "main";
         consensus.nSubsidySlowStartInterval = 4370; // slow start mining in roughly a month
-		consensus.nSubsidyHalvingInterval = 210000;
+	consensus.nSubsidyHalvingInterval = 210000;
         consensus.BIP34Height = 0;
         consensus.BIP34Hash = uint256S("0x0000df4314780c0ea37b77eeccbc184330707b95bc0c080f2c4707d642f12a04");
         consensus.BIP65Height = 0;
@@ -189,6 +189,7 @@ public:
         pchMessageStart[1] = 0xbe;
         pchMessageStart[2] = 0xb4;
         pchMessageStart[3] = 0xd9;
+	   
 	pchCashMessageStart[1] = 0xfe;
         pchCashMessageStart[1] = 0xbe;
         pchCashMessageStart[2] = 0xbf;
