@@ -36,6 +36,7 @@ These dependencies are required:
  libssl      | Crypto           | Random Number Generation, Elliptic Curve Cryptography
  libboost    | Utility          | Library for threading, data structures, etc
  libevent    | Networking       | OS independent asynchronous networking
+ libsodium   | Mining		| Library for equihash mining
 
 Optional dependencies:
 
@@ -152,6 +153,10 @@ Notes
 The release is built with GCC and then "strip btcnanod" to strip the debug
 symbols, which reduces the executable size by about 90%.
 
+libsodium
+---------
+It is ok to build with libsodium 1.0.15. It can be downloaded from [here](https://github.com/jedisct1/libsodium).
+sodium support is compiled in and turned on by default.
 
 miniupnpc
 ---------
