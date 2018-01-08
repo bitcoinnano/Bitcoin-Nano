@@ -31,6 +31,8 @@
 #include "validation.h"
 #include "validationinterface.h"
 
+#include "utilstrencodings.h"
+
 #include <boost/range/adaptor/reversed.hpp>
 #include <boost/thread.hpp>
 
@@ -2680,9 +2682,22 @@ static bool ProcessMessage(const Config &config, CNode *pfrom,
             }
 
             uint256 hashLastBlock;
+
+//			int cnt = 0;
+//			LogPrintf("\t\tsize of vector %u\n", headers.size());
             for (const CBlockHeader &header : headers) {
+//				LogPrintf("\t\t%d\n", cnt);
+//                    LogPrintf("prevHash=%s, gethash=%s\n", header.hashPrevBlock.ToString(), 
+//                                header.GetHash().ToString());
+
+//				LogPrintf("\t%d, version=%d, preHash=%s, merkleroot=%s, time=%d, bits=%d\nnonce=%s\n",
+//						cnt++, header.nVersion, header.hashPrevBlock.ToString(), header.hashMerkleRoot.ToString(), header.nTime, header.nBits, header.nNonce.ToString());
+//				LogPrintf("%s", HexStr(header.nSolution.begin(), header.nSolution.end()));
+
                 if (!hashLastBlock.IsNull() &&
                     header.hashPrevBlock != hashLastBlock) {
+					LogPrintf("prevHash=%s, gethash=%s\n", header.hashPrevBlock.ToString(), 
+								header.GetHash().ToString());
                     Misbehaving(pfrom, 20, "disconnected-header");
                     return error("non-continuous headers sequence");
                 }
@@ -3134,12 +3149,12 @@ bool ProcessMessages(const Config &config, CNode *pfrom, CConnman &connman,
 
     // This is a new peer. Before doing anything, we need to detect what magic
     // the peer is using.
-    if (pfrom->nVersion == 0 &&
+/*    if (pfrom->nVersion == 0 &&
         memcmp(msg.hdr.pchMessageStart, chainparams.MessageStart(),
                CMessageHeader::MESSAGE_START_SIZE) == 0) {
         pfrom->fUsesNanoMagic = false;
     }
-
+*/
     // Scan for message start
     if (memcmp(msg.hdr.pchMessageStart, pfrom->GetMagic(chainparams),
                CMessageHeader::MESSAGE_START_SIZE) != 0) {

@@ -13,6 +13,7 @@
 #include "streams.h"
 #include "uint256.h"
 #include "util.h"
+#include "utilstrencodings.h"
 
 #include <algorithm>
 
@@ -60,6 +61,7 @@ unsigned int CalculateNextWorkRequired(arith_uint256 bnAvg, int64_t lastBlockTim
 	return bnNew.GetCompact();
 }
 
+
 bool CheckEquihashSolution(const CBlockHeader *pblock, const CChainParams& params)
 {
     size_t n = params.n();
@@ -90,8 +92,9 @@ bool CheckEquihashSolution(const CBlockHeader *pblock, const CChainParams& param
     bool isValid;
     EhIsValidSolution(n, k, state, pblock->nSolution, isValid);
     if (!isValid)
+	{
         return error("CheckEquihashSolution(): invalid solution");
-
+	}
     return true;
 }
 

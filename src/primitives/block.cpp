@@ -29,8 +29,9 @@ std::string CBlock::ToString() const {
     }
     s << strprintf("}\n");
 */
-    for (unsigned int i = 0; i < vtx.size(); i++) {
+/*    for (unsigned int i = 0; i < vtx.size(); i++) {
         s << "  " << vtx[i]->ToString() << "\n";
     }
+*/
     return s.str();
 }

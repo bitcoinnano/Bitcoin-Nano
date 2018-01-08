@@ -54,6 +54,9 @@
 #error "Btcnano cannot be compiled without assertions."
 #endif
 
+#include <iostream>
+using namespace std;
+
 /**
  * Global state
  */
@@ -3529,7 +3532,13 @@ static bool AcceptBlockHeader(const Config &config, const CBlockHeader &block,
         }
 
         if (!CheckBlockHeader(block, state, chainparams.GetConsensus())) {
-            return error("%s: Consensus::CheckBlockHeader: %s, %s", __func__,
+/*			
+			cout << "nBits = " << block.nBits << ", nNonce = " << block.nNonce.ToString()
+				 << ", time = " << block.nTime << ", hash = " << block.GetHash().ToString() << ", prehash = "
+				 << block.hashPrevBlock.ToString() << endl; 
+			LogPrintf("bits = %d, nNonce=%s, time=%d, hash=%s, prehash=%s\n", block.nBits, block.nNonce.ToString(), 
+						block.nTime, block.GetHash().ToString(), block.hashPrevBlock.ToString());
+*/            return error("%s: Consensus::CheckBlockHeader: %s, %s", __func__,
                          hash.ToString(), FormatStateMessage(state));
         }
 

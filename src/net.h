@@ -754,8 +754,9 @@ public:
 
     const CMessageHeader::MessageStartChars &
     GetMagic(const CChainParams &params) const {
-        return fUsesNanoMagic ? params.NanoMessageStart()
-                              : params.MessageStart();
+		return params.MessageStart();
+//        return fUsesNanoMagic ? params.NanoMessageStart()
+//                              : params.MessageStart();
     }
 
     CService GetAddrLocal() const;

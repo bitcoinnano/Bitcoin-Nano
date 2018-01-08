@@ -148,7 +148,7 @@ public:
     int GetVersion() const { return nVersion; }
 
     void write(const char *pch, size_t size) {
-        ctx.Write((const uint8_t *)pch, size);
+	    ctx.Write((const uint8_t *)pch, size);
     }
 
     // invalidates the object
