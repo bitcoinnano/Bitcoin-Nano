@@ -850,7 +850,7 @@ CTxMemPool::GetSortedDepthAndScore() const {
          mi != mapTx.end(); ++mi) {
         iters.push_back(mi);
     }
-    std::sort(iters.begin(), iters.end(), DepthAndScoreComparator());
+    //std::sort(iters.begin(), iters.end(), DepthAndScoreComparator());
     return iters;
 }
 
