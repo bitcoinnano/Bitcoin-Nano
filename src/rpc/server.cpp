@@ -229,7 +229,7 @@ static UniValue help(Config &config, const JSONRPCRequest &jsonRequest) {
             "\nArguments:\n"
             "1. \"command\"     (string, optional) The command to get help on\n"
             "\nResult:\n"
-            "\"text\"     (string 2018/1/1) The help text\n");
+            "\"text\"     (string 2018/1/9) The help text\n");
 
     std::string strCommand;
     if (jsonRequest.params.size() > 0)

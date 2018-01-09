@@ -1,3 +1,9 @@
+// Copyright (c) 2009-2010 Satoshi Nakamoto
+// Copyright (c) 2009-2014 The Bitcoin Core developers
+// Copyright (c) 2017-2018 The Bitcoin Nano developers
+// Distributed under the MIT software license, see the accompanying
+// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+
 #include "miner.h"
 #include "arith_uint256.h"
 #include "pow/tromp/equi_miner.h"
@@ -12,6 +18,7 @@
 #include "arith_uint256.h"
 #include <fstream>
 
+// partly copied from https://github.com/zcash/zcash/blob/master/src/miner.cpp#L581
 bool equihash_(std::string solver, CBlock *pblock, int n, int k)
 {
     arith_uint256 hashTarget = arith_uint256().SetCompact(pblock->nBits);

@@ -130,8 +130,8 @@ public:
         strNetworkID = "main";
         consensus.nSubsidySlowStartInterval = 4370; // slow start mining in roughly a month
 	consensus.nSubsidyHalvingInterval = 210000;
-        consensus.BIP34Height = 0;
-        consensus.BIP34Hash = uint256S("0x0000df4314780c0ea37b77eeccbc184330707b95bc0c080f2c4707d642f12a04");
+        consensus.BIP34Height = 1;
+        consensus.BIP34Hash = uint256S("0x0001581d802a414be66618e6ae6fbc39f5d616221ec2f9ea3d1f469fc08fc298");
         consensus.BIP65Height = 0;
         consensus.BIP66Height = 0;
         consensus.antiReplayOpReturnSunsetHeight = 530000;
