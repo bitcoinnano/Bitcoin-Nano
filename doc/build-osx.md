@@ -39,9 +39,9 @@ Build Btcnano Nano
     You can disable the GUI build by passing `--without-gui` to configure. 
     use ubuntu16.04 , gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.5)
            
-        ./autogen.sh
-        ./configure
-        make
+        ./autogen.sh    
+        ./configure    
+        make   
 
 3.  It is recommended to build and run the unit tests:
 
