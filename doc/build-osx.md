@@ -37,7 +37,7 @@ Build Btcnano Nano
     Configure and build the headless btcnano binaries as well as the GUI (if Qt is found).
 
     You can disable the GUI build by passing `--without-gui` to configure. 
-    use ubuntu16.04 , gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.5)
+    use ubuntu16.04 , gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.5)    
            
         ./autogen.sh    
         ./configure    
