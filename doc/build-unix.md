@@ -66,7 +66,7 @@ Dependency Build Instructions: Ubuntu & Debian
 ----------------------------------------------
 Build requirements:
 
-    sudo apt-get install build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils libsodium-dev
+    sudo apt-get install build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils 
 
 Options when installing required Boost library files:
 
@@ -157,6 +157,24 @@ libsodium
 ---------
 It is ok to build with libsodium 1.0.15. It can be downloaded from [here](https://github.com/jedisct1/libsodium).
 sodium support is compiled in and turned on by default.
+
+Clone libsodium:
+
+    git clone https://github.com/jedisct1/libsodium --branch stable
+
+Build
+
+    ./autogen.sh
+
+    ./configure
+
+    make
+
+Install
+
+    cp -r src/libsodium/include/sodium src/libsodium/include/sodium.h /usr/local/include
+
+    cp ./src/libsodium/.libs/libsodium.a /usr/local/lib
 
 miniupnpc
 ---------
