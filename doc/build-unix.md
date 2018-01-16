@@ -4,6 +4,9 @@ Some notes on how to build Btcnano Nano in Unix.
 
 (for OpenBSD specific instructions, see [build-openbsd.md](build-openbsd.md))
 
+build test OK with ubuntu version 16.04 LTS;
+building with ubuntu version 14.04, consider https://github.com/bitcoinnano/Bitcoin-Nano/issues/3
+
 Note
 ---------------------
 Always use absolute paths to configure and compile btcnano and the dependencies,
