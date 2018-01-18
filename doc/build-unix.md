@@ -4,6 +4,9 @@ Some notes on how to build Btcnano Nano in Unix.
 
 (for OpenBSD specific instructions, see [build-openbsd.md](build-openbsd.md))
 
+build test OK with ubuntu version 16.04 LTS;
+building with ubuntu version 14.04, consider https://github.com/bitcoinnano/Bitcoin-Nano/issues/3
+
 Note
 ---------------------
 Always use absolute paths to configure and compile btcnano and the dependencies,
@@ -66,7 +69,7 @@ Dependency Build Instructions: Ubuntu & Debian
 ----------------------------------------------
 Build requirements:
 
-    sudo apt-get install build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils
+    sudo apt-get install build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils 
 
 Options when installing required Boost library files:
 
@@ -86,7 +89,7 @@ BerkeleyDB is required for the wallet.
 You can add the repository and install using the following commands:
 
     sudo apt-get install software-properties-common
-    sudo add-apt-repository ppa:btcnano/btcnano
+    sudo add-apt-repository ppa:bitcoin/bitcoin
     sudo apt-get update
     sudo apt-get install libdb4.8-dev libdb4.8++-dev
 
@@ -157,6 +160,24 @@ libsodium
 ---------
 It is ok to build with libsodium 1.0.15. It can be downloaded from [here](https://github.com/jedisct1/libsodium).
 sodium support is compiled in and turned on by default.
+
+Clone libsodium:
+
+    git clone https://github.com/jedisct1/libsodium --branch stable
+
+Build
+
+    ./autogen.sh
+
+    ./configure
+
+    make
+
+Install
+
+    cp -r src/libsodium/include/sodium src/libsodium/include/sodium.h /usr/local/include
+
+    cp ./src/libsodium/.libs/libsodium.a /usr/local/lib
 
 miniupnpc
 ---------
