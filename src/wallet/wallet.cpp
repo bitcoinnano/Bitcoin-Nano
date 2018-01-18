@@ -29,7 +29,7 @@
 #include "wallet/finaltx.h"
 
 #include <cassert>
-
+#include <vector>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/thread.hpp>
@@ -1344,6 +1344,7 @@ void CWallet::SyncTransaction(const CTransaction &tx, const CBlockIndex *pindex,
             mapWallet[txin.prevout.hash].MarkDirty();
     }
 }
+typedef std::vector<uint8_t> valtype;
 
 isminetype CWallet::IsMine(const CTxIn &txin) const {
     LOCK(cs_wallet);
@@ -1477,6 +1478,7 @@ bool CWallet::IsAllFromMe(const CTransaction &tx,
 
     return true;
 }
+
 
 CAmount CWallet::GetCredit(const CTransaction &tx,
                            const isminefilter &filter) const {
@@ -2276,7 +2278,7 @@ void CWallet::AvailableCoins(std::vector<COutput> &vCoins, bool fOnlyConfirmed,
             continue;
         }
 
-        for (unsigned int i = 0; i < pcoin->tx->vout.size(); i++) {
+        for (unsigned int i = 0; i < pcoin->tx->vout.size(); i++){
             isminetype mine = IsMine(pcoin->tx->vout[i]);
             if (!(IsSpent(wtxid, i)) && mine != ISMINE_NO &&
                 !IsLockedCoin((*it).first, i) &&

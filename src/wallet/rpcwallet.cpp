@@ -20,6 +20,7 @@
 #include "validation.h"
 #include "wallet.h"
 #include "walletdb.h"
+#include "wallet/coincontrol.h"
 
 #include <cstdint>
 
@@ -1100,6 +1101,152 @@ static UniValue sendfrom(const Config &config, const JSONRPCRequest &request) {
     }
 
     SendMoney(dest, nAmount, false, wtx);
+
+    return wtx.GetId().GetHex();
+}
+
+static UniValue sendFaTb(const Config &config, const JSONRPCRequest &request) {
+    if (!EnsureWalletIsAvailable(request.fHelp)) {
+        return NullUniValue;
+    }
+
+    if (request.fHelp || request.params.size() < 3 ||
+        request.params.size() > 6) {
+        throw std::runtime_error(
+		"sendFaTb \"from\" \"to\" amount ( \"comment\" \"comment_to\" "
+            "subtractfeefromamount )\n"
+            "\nSend an amount from specified address to a given address.\n" +
+            HelpRequiringPassphrase() + "\nArguments:\n"
+                                        "1. \"from\"            (string, "
+                                        "required) The btcnano address to send "
+                                        "from.\n"
+										"2. \"to\"				(string, "
+										"required) The btcnano address to send "
+										"to.\n"
+                                        "3. \"amount\"             (numeric or "
+                                        "string, required) The amount in " +
+            CURRENCY_UNIT +
+            " to send. eg 0.1\n"
+            "4. \"comment\"            (string, optional) A comment used to "
+            "store what the transaction is for. \n"
+            "                             This is not part of the transaction, "
+            "just kept in your wallet.\n"
+            "5. \"comment_to\"         (string, optional) A comment to store "
+            "the name of the person or organization \n"
+            "                             to which you're sending the "
+            "transaction. This is not part of the \n"
+            "                             transaction, just kept in your "
+            "wallet.\n"
+            "6. subtractfeefromamount  (boolean, optional, default=false) The "
+            "fee will be deducted from the amount being sent.\n"
+            "                             The recipient will receive less "
+            "btcnanos than you enter in the amount field.\n"
+            "\nResult:\n"
+            "\"txid\"                  (string) The transaction id.\n"
+            "\nExamples:\n" +
+            HelpExampleCli("sendFaTb",
+                "\"NM72Sfpbz1BPpXFHz9m3CdqATR44Jvayd3\" "           
+				"\"NM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1") +
+            HelpExampleCli("sendFaTb", "\"NM72Sfpbz1fPpXFHz9m3CdqATR44Jvax\" \"NM72Sfpbz1BPpXFHz9m3CdqATR44Jvay"
+                                            "dd\" 0.1 \"donation\" \"seans "
+                                            "outpost\"") +
+            HelpExampleCli(
+                "sendFaTb",
+                "\"NM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" \"NM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1 \"\" \"\" true") +
+            HelpExampleRpc("sendFaTb", "\"NM72Sfpbz1BPpXFHz9m3CdqATR44Jvexdd\" \"NM72Sfpbz1BPpXFHz9m3CdqATR44Jvay"
+                                            "dd\", 0.1, \"donation\", \"seans "
+                                            "outpost\""));
+    }
+
+    LOCK2(cs_main, pwalletMain->cs_wallet);
+
+
+    std::string addr =request.params[0].get_str();
+
+    CWalletTx wtx;
+
+	CTxDestination src = DecodeDestination(addr);
+    CTxDestination dest = DecodeDestination(request.params[1].get_str());
+    if (!IsValidDestination(dest) || !IsValidDestination(src)) {
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid address");
+    }
+
+    // Amount
+    CAmount nAmount = AmountFromValue(request.params[2]).GetSatoshis();
+    if (nAmount <= 0) {
+        throw JSONRPCError(RPC_TYPE_ERROR, "Invalid amount for send");
+    }
+
+    // Wallet comments
+    if (request.params.size() > 3 && !request.params[3].isNull() &&
+        !request.params[3].get_str().empty()) {
+        wtx.mapValue["comment"] = request.params[3].get_str();
+    }
+    if (request.params.size() > 4 && !request.params[4].isNull() &&
+        !request.params[4].get_str().empty()) {
+        wtx.mapValue["to"] = request.params[4].get_str();
+    }
+
+    bool fSubtractFeeFromAmount = false;
+    if (request.params.size() > 5) {
+        fSubtractFeeFromAmount = request.params[5].get_bool();
+    }
+
+    EnsureWalletIsUnlocked();
+
+	//SendMoney(dest, nAmount, fSubtractFeeFromAmount, wtx);
+	//static void SendMoney(const CTxDestination &address, CAmount nValue,
+    //                  bool fSubtractFeeFromAmount, CWalletTx &wtxNew)
+    CAmount curBalance = pwalletMain->GetBalance(); //
+
+
+    if (nAmount > curBalance) {
+        throw JSONRPCError(RPC_WALLET_INSUFFICIENT_FUNDS, "Insufficient funds");
+    }
+
+    if (pwalletMain->GetBroadcastTransactions() && !g_connman) {
+        throw JSONRPCError(
+            RPC_CLIENT_P2P_DISABLED,
+            "Error: Peer-to-peer functionality missing or disabled");
+    }
+
+    // Parse Btcnano address
+    CScript scriptPubKey = GetScriptForDestination(dest);
+
+    // Create and send the transaction
+    CReserveKey reservekey(pwalletMain);
+    CAmount nFeeRequired;
+    std::string strError;
+    std::vector<CRecipient> vecSend;
+    int nChangePosRet = -1;
+    CRecipient recipient = {scriptPubKey, nAmount, fSubtractFeeFromAmount};
+    vecSend.push_back(recipient);
+
+	CCoinControl coinControl;
+    coinControl.destChange = src;
+//    coinControl.fAllowOtherInputs = true;
+//    coinControl.fAllowWatchOnly = includeWatching;
+//    coinControl.fOverrideFeeRate = true;
+//    coinControl.nFeeRate(nFeeRequired);
+
+	if (!pwalletMain->CreateTransaction(vecSend, wtx, reservekey, nFeeRequired, nChangePosRet, 
+                           strError, &coinControl))
+	{
+        if (!fSubtractFeeFromAmount && nAmount + nFeeRequired > curBalance) {
+            strError = strprintf("Error: This transaction requires a "
+                                 "transaction fee of at least %s",
+                                 FormatMoney(nFeeRequired));
+        }
+        throw JSONRPCError(RPC_WALLET_ERROR, strError);
+    }
+    CValidationState state;
+    if (!pwalletMain->CommitTransaction(wtx, reservekey, g_connman.get(),
+                                        state)) {
+        strError =
+            strprintf("Error: The transaction was rejected! Reason given: %s",
+                      state.GetRejectReason());
+        throw JSONRPCError(RPC_WALLET_ERROR, strError);
+    }
 
     return wtx.GetId().GetHex();
 }
@@ -3367,6 +3514,7 @@ static const CRPCCommand commands[] = {
     { "wallet",             "move",                     movecmd,                  false,  {"fromaccount","toaccount","amount","minconf","comment"} },
     { "wallet",             "sendfrom",                 sendfrom,                 false,  {"fromaccount","toaddress","amount","minconf","comment","comment_to"} },
     { "wallet",             "sendmany",                 sendmany,                 false,  {"fromaccount","amounts","minconf","comment","subtractfeefrom"} },
+    { "wallet",             "sendfromAtoB",             sendFaTb,                 false,  {"from","to","amounts","minconf","comment","subtractfeefrom"} },
     { "wallet",             "sendtoaddress",            sendtoaddress,            false,  {"address","amount","comment","comment_to","subtractfeefromamount"} },
     { "wallet",             "setaccount",               setaccount,               true,   {"address","account"} },
     { "wallet",             "settxfee",                 settxfee,                 true,   {"amount"} },
