@@ -568,6 +568,16 @@ private:
         std::set<std::pair<const CWalletTx *, unsigned int>> &setCoinsRet,
         CAmount &nValueRet, const CCoinControl *coinControl = nullptr) const;
 
+	/**
+	 * Select a set of coins from specified address a,
+	 * to a given address b
+	 */
+	bool select_coin_from_addr(
+		const std::vector<COutput> &vAvailableCoins,
+		const CAmount &nTargetValue,
+    	std::set<std::pair<const CWalletTx *, unsigned int>> &setCoinsRet,
+	    CAmount &nValueRet) const;
+
     CWalletDB *pwalletdbEncryption;
 
     //! the current wallet version: clients below this version are not able to
@@ -698,7 +708,9 @@ public:
         AssertLockHeld(cs_wallet);
         return nWalletMaxVersion >= wf;
     }
-
+	void  AvailableCoins(std::vector<COutput> &vCoins, bool fOnlyConfirmed ,
+								 std::string addr,
+								 bool fIncludeZeroValue = false) const;
     /**
      * populate vCoins with vector of available COutputs.
      */
@@ -841,6 +853,13 @@ public:
      * @note passing nChangePosInOut as -1 will result in setting a random
      * position
      */
+    bool  CreateTheAddrTrans(const std::vector<CRecipient> &vecSend,
+                           CWalletTx &wtxNew, CReserveKey &reservekey,
+                           CAmount &nFeeRet, int &nChangePosInOut,
+                           std::string &strFailReason, std::string &fromaddr,
+                           const CCoinControl *coinControl = nullptr,
+                           bool sign = true);
+
     bool CreateTransaction(const std::vector<CRecipient> &vecSend,
                            CWalletTx &wtxNew, CReserveKey &reservekey,
                            CAmount &nFeeRet, int &nChangePosInOut,
@@ -898,7 +917,7 @@ public:
                               const isminefilter &filter);
     std::set<CTxDestination>
     GetAccountAddresses(const std::string &strAccount) const;
-
+	isminetype IsMine(const CTxOut &txout,std::string addr)const;
     isminetype IsMine(const CTxIn &txin) const;
     /**
      * Returns amount of debit if the input matches the filter, otherwise

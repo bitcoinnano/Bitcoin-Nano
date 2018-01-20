@@ -20,7 +20,6 @@
 #include "validation.h"
 #include "wallet.h"
 #include "walletdb.h"
-#include "wallet/coincontrol.h"
 
 #include <cstdint>
 
@@ -1105,69 +1104,34 @@ static UniValue sendfrom(const Config &config, const JSONRPCRequest &request) {
     return wtx.GetId().GetHex();
 }
 
-static UniValue sendFaTb(const Config &config, const JSONRPCRequest &request) {
+static UniValue sendfromAtoB(const Config &config, const JSONRPCRequest &request) {
     if (!EnsureWalletIsAvailable(request.fHelp)) {
         return NullUniValue;
     }
 
-    if (request.fHelp || request.params.size() < 3 ||
-        request.params.size() > 6) {
+    if (request.fHelp || request.params.size() < 2 ||
+        request.params.size() > 5) {
         throw std::runtime_error(
-		"sendFaTb \"from\" \"to\" amount ( \"comment\" \"comment_to\" "
-            "subtractfeefromamount )\n"
-            "\nSend an amount from specified address to a given address.\n" +
-            HelpRequiringPassphrase() + "\nArguments:\n"
-                                        "1. \"from\"            (string, "
-                                        "required) The btcnano address to send "
-                                        "from.\n"
-										"2. \"to\"				(string, "
-										"required) The btcnano address to send "
-										"to.\n"
-                                        "3. \"amount\"             (numeric or "
-                                        "string, required) The amount in " +
-            CURRENCY_UNIT +
-            " to send. eg 0.1\n"
-            "4. \"comment\"            (string, optional) A comment used to "
-            "store what the transaction is for. \n"
-            "                             This is not part of the transaction, "
-            "just kept in your wallet.\n"
-            "5. \"comment_to\"         (string, optional) A comment to store "
-            "the name of the person or organization \n"
-            "                             to which you're sending the "
-            "transaction. This is not part of the \n"
-            "                             transaction, just kept in your "
-            "wallet.\n"
-            "6. subtractfeefromamount  (boolean, optional, default=false) The "
-            "fee will be deducted from the amount being sent.\n"
-            "                             The recipient will receive less "
-            "btcnanos than you enter in the amount field.\n"
-            "\nResult:\n"
-            "\"txid\"                  (string) The transaction id.\n"
-            "\nExamples:\n" +
-            HelpExampleCli("sendFaTb",
-                "\"NM72Sfpbz1BPpXFHz9m3CdqATR44Jvayd3\" "           
-				"\"NM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1") +
-            HelpExampleCli("sendFaTb", "\"NM72Sfpbz1fPpXFHz9m3CdqATR44Jvax\" \"NM72Sfpbz1BPpXFHz9m3CdqATR44Jvay"
-                                            "dd\" 0.1 \"donation\" \"seans "
-                                            "outpost\"") +
-            HelpExampleCli(
-                "sendFaTb",
-                "\"NM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" \"NM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1 \"\" \"\" true") +
-            HelpExampleRpc("sendFaTb", "\"NM72Sfpbz1BPpXFHz9m3CdqATR44Jvexdd\" \"NM72Sfpbz1BPpXFHz9m3CdqATR44Jvay"
-                                            "dd\", 0.1, \"donation\", \"seans "
-                                            "outpost\""));
+            "sendfromAtoB \"from\" \"to\" \"amount\" ( "
+            "\"comment\" \"comment_to\")\n" + 
+            HelpExampleRpc("sendmany",
+                           "\"\", "
+                           "\"{\\\"1D1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XX\\\":0.01,"
+                           "\\\"1353tsE8YMTA4EuV7dgUXGjNFf9KpVvKHz\\\":0.02}\","
+                           " 6, \"testing\""));
     }
 
     LOCK2(cs_main, pwalletMain->cs_wallet);
 
 
-    std::string addr =request.params[0].get_str();
+    std::string src =request.params[0].get_str();
+
 
     CWalletTx wtx;
 
-	CTxDestination src = DecodeDestination(addr);
     CTxDestination dest = DecodeDestination(request.params[1].get_str());
-    if (!IsValidDestination(dest) || !IsValidDestination(src)) {
+    if (!IsValidDestination(dest) ||
+		!IsValidDestination(DecodeDestination(src))) {
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid address");
     }
 
@@ -1221,17 +1185,9 @@ static UniValue sendFaTb(const Config &config, const JSONRPCRequest &request) {
     int nChangePosRet = -1;
     CRecipient recipient = {scriptPubKey, nAmount, fSubtractFeeFromAmount};
     vecSend.push_back(recipient);
-
-	CCoinControl coinControl;
-    coinControl.destChange = src;
-//    coinControl.fAllowOtherInputs = true;
-//    coinControl.fAllowWatchOnly = includeWatching;
-//    coinControl.fOverrideFeeRate = true;
-//    coinControl.nFeeRate(nFeeRequired);
-
-	if (!pwalletMain->CreateTransaction(vecSend, wtx, reservekey, nFeeRequired, nChangePosRet, 
-                           strError, &coinControl))
-	{
+    if (!pwalletMain->CreateTheAddrTrans(vecSend, wtx, reservekey,
+                                        nFeeRequired, nChangePosRet,
+                                        strError, src)) {
         if (!fSubtractFeeFromAmount && nAmount + nFeeRequired > curBalance) {
             strError = strprintf("Error: This transaction requires a "
                                  "transaction fee of at least %s",
@@ -3514,7 +3470,7 @@ static const CRPCCommand commands[] = {
     { "wallet",             "move",                     movecmd,                  false,  {"fromaccount","toaccount","amount","minconf","comment"} },
     { "wallet",             "sendfrom",                 sendfrom,                 false,  {"fromaccount","toaddress","amount","minconf","comment","comment_to"} },
     { "wallet",             "sendmany",                 sendmany,                 false,  {"fromaccount","amounts","minconf","comment","subtractfeefrom"} },
-    { "wallet",             "sendfromAtoB",             sendFaTb,                 false,  {"from","to","amounts","minconf","comment","subtractfeefrom"} },
+    { "wallet",             "sendfromAtoB",             sendfromAtoB,             false,  {"fromaddr","toaddr","amounts","comment","comment_to","subtractfeefrom"} },
     { "wallet",             "sendtoaddress",            sendtoaddress,            false,  {"address","amount","comment","comment_to","subtractfeefromamount"} },
     { "wallet",             "setaccount",               setaccount,               true,   {"address","account"} },
     { "wallet",             "settxfee",                 settxfee,                 true,   {"amount"} },
