@@ -1354,7 +1354,6 @@ bool ok(CBtcnanoAddress a, CBtcnanoAddress b)
 }
 
 
-static int cnt1;
 isminetype CWallet::IsMine(const CTxOut &txout, std::string addr) const
 {
 	typedef std::vector<uint8_t> valtype;
@@ -1395,67 +1394,13 @@ isminetype CWallet::IsMine(const CTxOut &txout, std::string addr) const
 		}
 //		case TX_MULTISIG: case TX_NONSTANDARD: case TX_NULL_DATA:
 		default:
-			// TODO:to be complished to convert from multi key to one address
+			// TODO:convert from multi key to one address
 			return ISMINE_NO;
 	}
 
 	return ::IsMine(*this, txout.scriptPubKey);
 }
-/*
-typedef std::vector<uint8_t> valtype;
-isminetype CWallet::IsMine(const CTxOut &txout,std::string addr) const 
-{
-	  uint160 hashBytes;
-	  txnouttype addrType;
-	  uint160 addrhash;
-	  //txnouttype type;
-	  std::vector<valtype> vSolutions;
-	  txnouttype addressType;
-	  //if (!Solver(prevout.scriptPubKey, addressType, vSolutions))
-	  if (!Solver(txout.scriptPubKey, addressType, vSolutions))
-	  {
-		 return ISMINE_NO;
-	  }
-	switch(addressType)
-	{
-		case :
-	}
 
-	  else
-	  {
-//        PUBKEY_ADDRESS, ==1 	   SCRIPT_ADDRESS, ==2
-		  if(addressType !=TX_SCRIPTHASH && addressType !=TX_PUBKEY &&addressType !=TX_PUBKEYHASH)
-		      return ISMINE_NO;
-		  if(addressType== TX_SCRIPTHASH )
-		  {
-			 addrType=2 ;
-			 addrhash=uint160(vSolutions[0]);
-		  }
-		  if(addressType==TX_PUBKEYHASH )
-		  {
-			 addrType=1 ;
-			 addrhash=uint160(vSolutions[0]);
-		  }
-		  if(addressType== TX_PUBKEY)
-		  {
-			addrType=1 ;
-			addrhash= Hash160(vSolutions[0]);
-		  }
-	  }
-	  
-	  CBtcnanoAddress  btcAddr(txout.scriptPubKey);
-	  CBtcnanoAddress newaddr;
-	  newaddr.Set(CScriptID(addrhash));
-	  //CTxDestination abc(CScriptId(addrhash));
-	  CTxDestination comaddr=DecodeDestination(addr);
-	  if(newaddr.CompareTo(CBtcnanoAddress(comaddr))!=0)	
-	  //if(comaddr!=abc)	
-	  {
-		return ISMINE_NO;			
-	  }
-	  return ::IsMine(*this, txout.scriptPubKey);	  
-}
-*/
 isminetype CWallet::IsMine(const CTxIn &txin) const {
     LOCK(cs_wallet);
     std::map<uint256, CWalletTx>::const_iterator mi =
@@ -2447,7 +2392,6 @@ void CWallet::AvailableCoins(std::vector<COutput> &vCoins, bool fOnlyConfirmed,
             continue;
         }
 
-static int cnt = 0;
         for (unsigned int i = 0; i < pcoin->tx->vout.size(); i++)
 		{
             isminetype mine = IsMine(pcoin->tx->vout[i],addr);

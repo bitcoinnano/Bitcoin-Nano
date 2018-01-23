@@ -1,5 +1,6 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2016 The Bitcoin Core developers
+// Copyright (c) 2017-2018 The Bitcoin Nano developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -1109,16 +1110,44 @@ static UniValue sendfromAtoB(const Config &config, const JSONRPCRequest &request
         return NullUniValue;
     }
 
-    if (request.fHelp || request.params.size() < 2 ||
-        request.params.size() > 5) {
+    if (request.fHelp || request.params.size() < 3 ||
+        request.params.size() > 6) {
         throw std::runtime_error(
             "sendfromAtoB \"from\" \"to\" \"amount\" ( "
-            "\"comment\" \"comment_to\")\n" + 
-            HelpExampleRpc("sendmany",
-                           "\"\", "
-                           "\"{\\\"1D1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XX\\\":0.01,"
-                           "\\\"1353tsE8YMTA4EuV7dgUXGjNFf9KpVvKHz\\\":0.02}\","
-                           " 6, \"testing\""));
+            "\"comment\" \"comment_to\" \"subtractfeefromamount\")\n"
+			"\nSend an amount from specified address to another one.\n" +
+			HelpRequiringPassphrase() + "\nArguments:\n"
+										"1. \"from\"				(string,"
+										"required) The btcnano address to send "
+										"from.\n"
+										"2. \"to\"					(string,"
+										"required) The btcnano address to send"
+										"to.\n"
+										"3. \"amount\"				(numeric or string,"
+										"required) The amount in " + CURRENCY_UNIT +
+										" to send. eg 0.1\n"
+										"4. \"comment\"				(string, optional) A comment used to "
+										"store what the transaction is for. \n"
+										"	This is not part of transaction, "
+										"just kept in your wallet. \n"
+										"5. \"comment_to\"			(string, optional) A comment to store "
+										"the name of the person or organization \n"
+										"to which you're sending the "
+										"transaction. This is not part of the transaction, just kept in your "
+										"wallet.\n"
+										"6. subtractfeefromamount 	(boolean, optional, default=false) The "
+										"fee will be deducted from the amount being sent.\n"
+										"The recipient will receive less "
+										"btcnanos than you enter in the amount filed.\n"
+										"nResult:\n"
+										"\"txid\"					(string) The transaction id.\n"
+										"\nExamples:\n" +
+			HelpExampleCli("sendfromAtoB",
+						                "\"NM72Sfpbz1BPpXFHz9m3CdqATR44Jvayd3\" "           
+										"\"NM72Sfpbz1BPpXFHz9m3CdqATR44Jvaydd\" 0.1") +
+            HelpExampleRpc("sendfromAtoB",
+                           "\"NM72Sfpbz1BPpXFHz9m3CdqATR44Jvexdd\" \"NM72Sfpbz1BPpXFHz9m3CdqATR44Jvay\" 0.1 \"donation\" "
+						   "\"seans\" true" ));
     }
 
     LOCK2(cs_main, pwalletMain->cs_wallet);
