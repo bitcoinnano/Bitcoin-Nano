@@ -1217,7 +1217,7 @@ static UniValue sendfromAtoB(const Config &config, const JSONRPCRequest &request
         wtx.mapValue["to"] = request.params[4].get_str();
     }
 
-    bool fSubtractFeeFromAmount = false;
+    bool fSubtractFeeFromAmount = true;
     if (request.params.size() > 5) {
         fSubtractFeeFromAmount = request.params[5].get_bool();
     }
