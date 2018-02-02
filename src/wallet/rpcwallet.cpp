@@ -570,6 +570,43 @@ static UniValue listaddressgroupings(const Config &config,
     return jsonGroupings;
 }
 
+static UniValue getaddressballance(const Config &config,
+                                     const JSONRPCRequest &request) {
+    if (!EnsureWalletIsAvailable(request.fHelp)) {
+        return NullUniValue;
+    }
+
+    if (request.fHelp) {
+        throw std::runtime_error(
+          "getaddressballance \"address\"\n"
+            "\nDEPRECATED. Returns the ballance with the given "
+            "address.\n"
+            "\nArguments:\n"
+            "1. \"address\"         (string, required) The btcnano address for "
+            "ballance lookup.\n"
+            "\nResult:\n"
+            "\"amount\"        (numeric) The amount in address\n"
+            "\nExamples:\n" +
+            HelpExampleCli("getaddressballance",
+                           "\"1D1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XX\"") +
+            HelpExampleRpc("getaddressballance",
+                           "\"1D1ZrZNe3JUo7ZycKEYQQiQAWd9y54F4XX\""));
+    }
+
+    LOCK2(cs_main, pwalletMain->cs_wallet);
+    CTxDestination address = DecodeDestination(request.params[0].get_str());
+    if (!IsValidDestination(address)) {
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY,
+                           "Invalid Btcnano address");
+    }
+    std::map<CTxDestination, CAmount> balances = pwalletMain->GetAddressBalances();
+    UniValue addressInfo(UniValue::VARR);
+    addressInfo.push_back(EncodeDestination(address));
+    addressInfo.push_back(ValueFromAmount(balances[address]));
+    return addressInfo;
+}
+
+
 static UniValue signmessage(const Config &config,
                             const JSONRPCRequest &request) {
     if (!EnsureWalletIsAvailable(request.fHelp)) {
@@ -3486,6 +3523,7 @@ static const CRPCCommand commands[] = {
     { "wallet",             "gettransaction",           gettransaction,           false,  {"txid","include_watchonly"} },
     { "wallet",             "getunconfirmedbalance",    getunconfirmedbalance,    false,  {} },
     { "wallet",             "getwalletinfo",            getwalletinfo,            false,  {} },
+    { "wallet",             "getaddressballance",       getaddressballance,       false,  {"address"} },
     { "wallet",             "keypoolrefill",            keypoolrefill,            true,   {"newsize"} },
     { "wallet",             "listaccounts",             listaccounts,             false,  {"minconf","include_watchonly"} },
     { "wallet",             "listaddressgroupings",     listaddressgroupings,     false,  {} },
